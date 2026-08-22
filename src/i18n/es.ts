@@ -67,12 +67,6 @@ export const es = {
         org: 'Universidad Nihon Gakko · Fernando de la Mora, PY',
         note: 'Tesis en etapa de evaluación y defensa: sistema de gestión de asistencia académica en producción.',
       },
-      {
-        period: '2018 — 2020',
-        degree: 'Bachiller en Química Industrial',
-        org: 'Centro de Capacitación Técnica · Fernando de la Mora, PY',
-        note: '',
-      },
     ],
   },
   contact: {

@@ -69,12 +69,6 @@ export const en: Dictionary = {
         org: 'Universidad Nihon Gakko · Fernando de la Mora, PY',
         note: 'Thesis in evaluation and defense stage: an academic attendance management system already in production.',
       },
-      {
-        period: '2018 — 2020',
-        degree: 'Industrial Chemistry High School Diploma',
-        org: 'Centro de Capacitación Técnica · Fernando de la Mora, PY',
-        note: '',
-      },
     ],
   },
   contact: {
