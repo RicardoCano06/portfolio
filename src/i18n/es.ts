@@ -15,6 +15,7 @@ export const es = {
       'Desarrollo de interfaces tipadas con React y TypeScript, arquitectura de APIs con Node.js y modelado relacional robusto en PostgreSQL.',
     ctaProjects: 'Ver proyectos',
     ctaContact: 'Contactarme',
+    ctaCv: 'Descargar CV',
   },
   about: {
     eyebrow: 'Quién soy',

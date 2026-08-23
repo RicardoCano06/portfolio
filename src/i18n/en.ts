@@ -17,6 +17,7 @@ export const en: Dictionary = {
       'Typed interfaces with React and TypeScript, API architecture with Node.js and robust relational modeling in PostgreSQL.',
     ctaProjects: 'View projects',
     ctaContact: 'Get in touch',
+    ctaCv: 'Download CV',
   },
   about: {
     eyebrow: 'Who I am',

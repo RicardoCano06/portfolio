@@ -1,5 +1,5 @@
 import { motion, type Variants } from 'framer-motion'
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react'
+import { ChevronDown, Download, Github, Linkedin, Mail } from 'lucide-react'
 import { useI18n } from '../i18n'
 
 const container: Variants = {
@@ -73,6 +73,13 @@ export default function Hero() {
             className="rounded-full border border-white/15 px-7 py-3 text-sm font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-400/60 hover:text-white"
           >
             {t.hero.ctaContact}
+          </a>
+          <a
+            href="/CV_Ricardo_Cano.pdf"
+            download="CV_Ricardo_Cano.pdf"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3 text-sm font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-violet-400/60 hover:text-white"
+          >
+            <Download size={15} /> {t.hero.ctaCv}
           </a>
         </motion.div>
 
