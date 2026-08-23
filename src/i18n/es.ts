@@ -12,15 +12,15 @@ export const es = {
     name: 'Ricardo Cano',
     role: 'Full Stack Developer',
     tagline:
-      'Construyo aplicaciones web completas: interfaces con React y TypeScript, APIs con Node.js y bases de datos PostgreSQL. De la idea al despliegue.',
+      'Desarrollo de interfaces tipadas con React y TypeScript, arquitectura de APIs con Node.js y modelado relacional robusto en PostgreSQL.',
     ctaProjects: 'Ver proyectos',
     ctaContact: 'Contactarme',
   },
   about: {
     eyebrow: 'Quién soy',
     title: 'Sobre mí',
-    p1: 'Soy desarrollador full stack de Fernando de la Mora, Paraguay. Completé mis estudios de Ingeniería Informática en la Universidad Nihon Gakko y mi tesis —un sistema de gestión de asistencia académica ya en producción— está a las puertas de la defensa final.',
-    p2: 'Me gusta llevar ideas de cero a producción: modelar la base de datos, construir la API, diseñar la interfaz y desplegar todo a la nube. Trabajo principalmente con React, TypeScript, Node.js y PostgreSQL.',
+    p1: 'Egresado de Ingeniería Informática por la Universidad Nihon Gakko. Diseño e implemento sistemas end-to-end: desde la normalización de la base de datos hasta el despliegue de infraestructura en la nube. Mi tesis —un sistema de gestión académica— ya opera en producción.',
+    p2: 'Stack principal: React, TypeScript, Node.js y PostgreSQL, con despliegues en producción sobre Cloudflare, Vercel y Heroku.',
     facts: {
       location: 'Ubicación',
       locationValue: 'Fernando de la Mora, PY',
@@ -58,7 +58,7 @@ export const es = {
         period: 'Oct 2025 — Nov 2025',
         role: 'Pasante de Soporte Técnico / Help Desk',
         org: 'Navemar S.A. · Paraguay',
-        desc: 'Soporte técnico directo y resolución de incidencias en Microsoft 365. Mantenimiento de hardware (diagnóstico, ampliación de RAM, migración a SSD) e instalación de software.',
+        desc: 'Resolución de incidencias en infraestructura y administración de entornos empresariales de Microsoft 365.',
       },
     ],
     education: [

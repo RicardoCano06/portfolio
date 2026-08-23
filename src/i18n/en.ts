@@ -14,15 +14,15 @@ export const en: Dictionary = {
     name: 'Ricardo Cano',
     role: 'Full Stack Developer',
     tagline:
-      'I build complete web applications: React + TypeScript frontends, Node.js APIs and PostgreSQL databases. From idea to deployment.',
+      'Typed interfaces with React and TypeScript, API architecture with Node.js and robust relational modeling in PostgreSQL.',
     ctaProjects: 'View projects',
     ctaContact: 'Get in touch',
   },
   about: {
     eyebrow: 'Who I am',
     title: 'About me',
-    p1: "I'm a full stack developer from Fernando de la Mora, Paraguay. I completed my Computer Engineering studies at Universidad Nihon Gakko, and my thesis — an academic attendance management system already in production — is awaiting final defense.",
-    p2: 'I enjoy taking ideas from zero to production: modeling the database, building the API, designing the UI and shipping everything to the cloud. My main tools are React, TypeScript, Node.js and PostgreSQL.',
+    p1: 'Computer Engineering graduate from Universidad Nihon Gakko. I design and build end-to-end systems: from database normalization to cloud infrastructure deployment. My thesis — an academic management system — already runs in production.',
+    p2: 'Core stack: React, TypeScript, Node.js and PostgreSQL, with production deployments on Cloudflare, Vercel and Heroku.',
     facts: {
       location: 'Location',
       locationValue: 'Fernando de la Mora, PY',
@@ -60,7 +60,7 @@ export const en: Dictionary = {
         period: 'Oct 2025 — Nov 2025',
         role: 'Technical Support Intern / Help Desk',
         org: 'Navemar S.A. · Paraguay',
-        desc: 'Hands-on technical support and incident resolution on Microsoft 365. Hardware maintenance (diagnostics, RAM upgrades, SSD migration) and software installation.',
+        desc: 'Infrastructure incident resolution and administration of Microsoft 365 enterprise environments.',
       },
     ],
     education: [

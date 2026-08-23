@@ -57,13 +57,13 @@ export const projects: Project[] = [
     es: {
       title: 'Vekt',
       subtitle: 'Entrenamiento con sobrecarga progresiva',
-      desc: 'SPA offline-first y bilingüe (ES/EN) para registrar entrenamientos de fuerza: rutinas, series, RPE, estadísticas, rachas y PRs, con modo Demo Sandbox de 1 clic aislado de producción.',
+      desc: 'SPA offline-first con persistencia local de registros complejos, internacionalización dinámica (ES/EN) y un entorno Sandbox aislado de la base de datos de producción para demostraciones seguras.',
       badge: 'Proyecto personal',
     },
     en: {
       title: 'Vekt',
       subtitle: 'Progressive overload training tracker',
-      desc: 'Offline-first bilingual (ES/EN) SPA for logging strength training: routines, sets, RPE, stats, streaks and PRs, with a 1-click Demo Sandbox isolated from production.',
+      desc: 'Offline-first SPA with local persistence for complex records, dynamic internationalization (ES/EN), and a Sandbox environment isolated from the production database for safe demos.',
       badge: 'Personal project',
     },
   },
@@ -85,13 +85,13 @@ export const projects: Project[] = [
     es: {
       title: 'Sistema de Gestión de Asistencia Académica',
       subtitle: 'Control y seguimiento de asistencia',
-      desc: 'Aplicación Full-Stack para el control de asistencia: base de datos relacional modelada en PostgreSQL, validación con Zod y autenticación JWT con bcrypt. Proyecto de tesis universitaria.',
+      desc: 'Arquitectura RESTful en Node.js con validación estricta de esquemas de datos (Zod) en los endpoints. Base de datos PostgreSQL diseñada para garantizar integridad referencial y consistencia transaccional de registros académicos.',
       badge: 'Proyecto de tesis',
     },
     en: {
       title: 'Academic Attendance Management System',
       subtitle: 'Attendance control & tracking',
-      desc: 'Full-Stack attendance management app: relational database modeled in PostgreSQL, validation with Zod and JWT authentication with bcrypt. University thesis project.',
+      desc: 'RESTful architecture in Node.js with strict data schema validation (Zod) on endpoints. PostgreSQL database designed to guarantee referential integrity and transactional consistency of academic records.',
       badge: 'Thesis project',
     },
   },
@@ -111,13 +111,13 @@ export const projects: Project[] = [
     es: {
       title: 'Palmares — Salón de Eventos',
       subtitle: 'Sitio comercial',
-      desc: 'SPA comercial con cotizador a WhatsApp, galería interactiva, carrusel y optimización de carga con WebP. Desplegada en Cloudflare Pages.',
+      desc: 'Aplicación comercial estática de alto rendimiento desplegada en la red edge de Cloudflare. Interfaz interactiva optimizada para conversión, con galería, carrusel e integración de flujos de cotización hacia WhatsApp.',
       badge: 'Proyecto comercial',
     },
     en: {
       title: 'Palmares — Event Venue',
       subtitle: 'Commercial website',
-      desc: 'Commercial SPA with a WhatsApp quote flow, interactive gallery, carousel and WebP load optimization. Deployed on Cloudflare Pages.',
+      desc: 'High-performance static commercial application deployed on the Cloudflare edge network. Interactive conversion-focused interface with gallery, carousel and WhatsApp quote flow integration.',
       badge: 'Commercial project',
     },
   },
