@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { I18nProvider } from './i18n'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -21,8 +22,9 @@ export default function App() {
           <Experience />
           <Contact />
         </main>
-        <Footer />
-      </div>
+          <Footer />
+          <Analytics />
+        </div>
     </I18nProvider>
   )
 }
