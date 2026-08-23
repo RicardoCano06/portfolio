@@ -19,7 +19,7 @@ export const es = {
   about: {
     eyebrow: 'Quién soy',
     title: 'Sobre mí',
-    p1: 'Soy desarrollador full stack de Fernando de la Mora, Paraguay. Estudio Ingeniería Informática en la Universidad Nihon Gakko y mi tesis —un sistema de gestión de asistencia académica— ya está en producción.',
+    p1: 'Soy desarrollador full stack de Fernando de la Mora, Paraguay. Completé mis estudios de Ingeniería Informática en la Universidad Nihon Gakko y mi tesis —un sistema de gestión de asistencia académica ya en producción— está a las puertas de la defensa final.',
     p2: 'Me gusta llevar ideas de cero a producción: modelar la base de datos, construir la API, diseñar la interfaz y desplegar todo a la nube. Trabajo principalmente con React, TypeScript, Node.js y PostgreSQL.',
     facts: {
       location: 'Ubicación',
@@ -39,6 +39,7 @@ export const es = {
       langs: 'Lenguajes & Frameworks',
       db: 'Bases de Datos & Herramientas',
       deploy: 'Plataformas & Despliegue',
+      ai: 'Herramientas de IA',
     },
   },
   projects: {
@@ -63,9 +64,9 @@ export const es = {
     education: [
       {
         period: '2021 — Presente',
-        degree: 'Ingeniería Informática',
+        degree: 'Ingeniería Informática · Egresado',
         org: 'Universidad Nihon Gakko · Fernando de la Mora, PY',
-        note: 'Tesis en etapa de evaluación y defensa: sistema de gestión de asistencia académica en producción.',
+        note: 'Tesis lista para defensa: sistema de gestión de asistencia académica en producción.',
       },
     ],
   },
@@ -73,7 +74,7 @@ export const es = {
     eyebrow: 'Contacto',
     title: '¿Trabajamos juntos?',
     subtitle:
-      'Estoy abierto a oportunidades full stack, proyectos freelance o colaboraciones. Escribime y te respondo rápido.',
+      'Estoy abierto a oportunidades como desarrollador full stack o frontend. Contáctame a través de cualquiera de los siguientes canales.',
     sendEmail: 'Enviar email',
     email: 'Email',
     linkedin: 'LinkedIn',

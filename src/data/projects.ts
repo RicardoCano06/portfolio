@@ -1,5 +1,18 @@
-import { CalendarCheck2, Dumbbell, PartyPopper } from 'lucide-react'
+﻿import { CalendarCheck2, Dumbbell, PartyPopper } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import {
+  siCloudflare,
+  siExpress,
+  siJavascript,
+  siPostgresql,
+  siReact,
+  siSupabase,
+  siTailwindcss,
+  siTypescript,
+  siVite,
+  siZod,
+} from 'simple-icons'
+import type { SimpleIcon } from 'simple-icons'
 
 export type ProjectId = 'vekt' | 'asistencia' | 'palmares'
 
@@ -10,13 +23,19 @@ interface ProjectContent {
   badge: string
 }
 
+export interface TechItem {
+  name: string
+  icon?: SimpleIcon
+  color?: string
+}
+
 export interface Project {
   id: ProjectId
   icon: LucideIcon
   gradient: string
   demo?: string
   github?: string
-  tech: string[]
+  tech: TechItem[]
   es: ProjectContent
   en: ProjectContent
 }
@@ -28,7 +47,13 @@ export const projects: Project[] = [
     gradient: 'from-violet-600/40 via-purple-500/20 to-cyan-500/30',
     demo: 'https://vekt.ricardocanoc06.workers.dev/',
     github: 'https://github.com/RicardoCano06/Vekt',
-    tech: ['React 19', 'TypeScript', 'Vite', 'Supabase', 'Tailwind CSS'],
+    tech: [
+      { name: 'React 19', icon: siReact },
+      { name: 'TypeScript', icon: siTypescript },
+      { name: 'Vite', icon: siVite },
+      { name: 'Supabase', icon: siSupabase },
+      { name: 'Tailwind CSS', icon: siTailwindcss },
+    ],
     es: {
       title: 'Vekt',
       subtitle: 'Entrenamiento con sobrecarga progresiva',
@@ -49,7 +74,14 @@ export const projects: Project[] = [
     demo: 'https://asistenciaung.dev',
     github:
       'https://github.com/RicardoCano06/Sistema-de-Gestion-de-Asistencia-Academica',
-    tech: ['React', 'TypeScript', 'Express', 'PostgreSQL', 'Supabase', 'Zod'],
+    tech: [
+      { name: 'React', icon: siReact },
+      { name: 'TypeScript', icon: siTypescript },
+      { name: 'Express', icon: siExpress, color: '#E8E8E8' },
+      { name: 'PostgreSQL', icon: siPostgresql },
+      { name: 'Supabase', icon: siSupabase },
+      { name: 'Zod', icon: siZod },
+    ],
     es: {
       title: 'Sistema de Gestión de Asistencia Académica',
       subtitle: 'Control y seguimiento de asistencia',
@@ -69,18 +101,24 @@ export const projects: Project[] = [
     gradient: 'from-amber-500/40 via-orange-500/20 to-pink-500/30',
     demo: 'https://palmares-eventos.ricardocanoc06.workers.dev/',
     github: 'https://github.com/RicardoCano06/Palmares-Eventos',
-    tech: ['React 18', 'JavaScript', 'Vite', 'Tailwind CSS', 'Cloudflare Pages'],
+    tech: [
+      { name: 'React 18', icon: siReact },
+      { name: 'JavaScript', icon: siJavascript },
+      { name: 'Vite', icon: siVite },
+      { name: 'Tailwind CSS', icon: siTailwindcss },
+      { name: 'Cloudflare Pages', icon: siCloudflare },
+    ],
     es: {
       title: 'Palmares — Salón de Eventos',
-      subtitle: 'Sitio comercial · Freelance',
+      subtitle: 'Sitio comercial',
       desc: 'SPA comercial con cotizador a WhatsApp, galería interactiva, carrusel y optimización de carga con WebP. Desplegada en Cloudflare Pages.',
-      badge: 'Freelance',
+      badge: 'Proyecto comercial',
     },
     en: {
       title: 'Palmares — Event Venue',
-      subtitle: 'Commercial website · Freelance',
+      subtitle: 'Commercial website',
       desc: 'Commercial SPA with a WhatsApp quote flow, interactive gallery, carousel and WebP load optimization. Deployed on Cloudflare Pages.',
-      badge: 'Freelance',
+      badge: 'Commercial project',
     },
   },
 ]

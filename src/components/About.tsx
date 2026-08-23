@@ -22,7 +22,7 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="space-y-4 leading-relaxed text-slate-400 md:col-span-3"
           >
@@ -33,9 +33,9 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="glass space-y-5 rounded-2xl p-6 md:col-span-2"
+            className="glass space-y-5 rounded-2xl p-6 md:col-span-2 md:-mt-16"
           >
             {facts.map((f) => (
               <div key={f.label} className="flex items-center gap-4">

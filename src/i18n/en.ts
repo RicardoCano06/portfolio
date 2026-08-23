@@ -21,7 +21,7 @@ export const en: Dictionary = {
   about: {
     eyebrow: 'Who I am',
     title: 'About me',
-    p1: "I'm a full stack developer from Fernando de la Mora, Paraguay. I'm studying Computer Engineering at Universidad Nihon Gakko, and my thesis — an academic attendance management system — is already live in production.",
+    p1: "I'm a full stack developer from Fernando de la Mora, Paraguay. I completed my Computer Engineering studies at Universidad Nihon Gakko, and my thesis — an academic attendance management system already in production — is awaiting final defense.",
     p2: 'I enjoy taking ideas from zero to production: modeling the database, building the API, designing the UI and shipping everything to the cloud. My main tools are React, TypeScript, Node.js and PostgreSQL.',
     facts: {
       location: 'Location',
@@ -41,6 +41,7 @@ export const en: Dictionary = {
       langs: 'Languages & Frameworks',
       db: 'Databases & Tools',
       deploy: 'Platforms & Deployment',
+      ai: 'AI Tools',
     },
   },
   projects: {
@@ -65,9 +66,9 @@ export const en: Dictionary = {
     education: [
       {
         period: '2021 — Present',
-        degree: 'Computer Engineering',
+        degree: 'Computer Engineering · Graduate',
         org: 'Universidad Nihon Gakko · Fernando de la Mora, PY',
-        note: 'Thesis in evaluation and defense stage: an academic attendance management system already in production.',
+        note: 'Thesis awaiting defense: an academic attendance management system already in production.',
       },
     ],
   },
@@ -75,7 +76,7 @@ export const en: Dictionary = {
     eyebrow: 'Contact',
     title: "Let's work together",
     subtitle:
-      "I'm open to full stack roles, freelance projects and collaborations. Drop me a message and I'll get back to you fast.",
+      'I am open to full stack and frontend developer opportunities. Feel free to reach out through any of the following channels.',
     sendEmail: 'Send email',
     email: 'Email',
     linkedin: 'LinkedIn',

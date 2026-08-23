@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 import SectionHeading from './SectionHeading'
+import TechIcon from './TechIcon'
 import { projects, type Project } from '../data/projects'
 import { useI18n, type Lang } from '../i18n'
 
@@ -47,7 +48,7 @@ function ProjectCard({
     <motion.article
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.55, delay: index * 0.1, ease: 'easeOut' }}
       className="glass group flex flex-col overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-1.5 hover:border-violet-400/40 hover:shadow-xl hover:shadow-violet-600/10"
     >
@@ -72,10 +73,17 @@ function ProjectCard({
         <div className="mt-4 flex flex-wrap gap-2">
           {project.tech.map((tech) => (
             <span
-              key={tech}
-              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-slate-300"
+              key={tech.name}
+              title={tech.name}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] transition hover:-translate-y-0.5 hover:border-violet-400/50 hover:bg-white/[0.08]"
             >
-              {tech}
+              {tech.icon ? (
+                <TechIcon icon={tech.icon} size={16} color={tech.color ?? `#${tech.icon.hex}`} />
+              ) : (
+                <span className="text-[10px] font-bold text-slate-300">
+                  {tech.name.charAt(0)}
+                </span>
+              )}
             </span>
           ))}
         </div>

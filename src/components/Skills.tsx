@@ -1,17 +1,8 @@
-import { motion, type Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 import SectionHeading from './SectionHeading'
+import TechIcon from './TechIcon'
 import { skillGroups } from '../data/skills'
 import { useI18n } from '../i18n'
-
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-}
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
-}
 
 export default function Skills() {
   const { t } = useI18n()
@@ -21,36 +12,51 @@ export default function Skills() {
       <div className="mx-auto max-w-5xl px-6">
         <SectionHeading eyebrow={t.skills.eyebrow} title={t.skills.title} />
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
-          className="grid gap-6 md:grid-cols-3"
-        >
-          {skillGroups.map((group) => (
-            <motion.div key={group.id} variants={item} className="glass rounded-2xl p-6">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500/25 to-cyan-500/25 text-cyan-300">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {skillGroups.map((group, gi) => (
+            <motion.div
+              key={group.id}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.55, delay: gi * 0.1, ease: 'easeOut' }}
+              className="glass rounded-2xl p-5"
+            >
+              <div className="mb-4 flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/25 to-cyan-500/25 text-cyan-300">
                   <group.icon size={19} />
                 </span>
-                <h3 className="font-display text-base font-semibold text-white">
+                <h3 className="font-display text-sm font-semibold leading-tight text-white">
                   {t.skills.groupTitles[group.id]}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-slate-300 transition hover:border-violet-400/60 hover:text-white"
+
+              <div className="grid grid-cols-3 gap-2">
+                {group.items.map((item) => (
+                  <div
+                    key={item.name}
+                    className="flex flex-col items-center justify-start gap-1.5 rounded-xl border border-white/[0.06] bg-white/[0.03] px-1.5 py-3 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-white/[0.06]"
                   >
-                    {s}
-                  </span>
+                    {item.icon ? (
+                      <TechIcon
+                        icon={item.icon}
+                        size={26}
+                        color={item.color ?? `#${item.icon.hex}`}
+                      />
+                    ) : (
+                      <span className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-gradient-to-br from-violet-500/70 to-cyan-500/70 text-xs font-bold text-white">
+                        {item.name.charAt(0)}
+                      </span>
+                    )}
+                    <span className="line-clamp-2 text-center text-[10px] font-medium leading-tight text-slate-400 transition group-hover:text-slate-200">
+                      {item.name}
+                    </span>
+                  </div>
                 ))}
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

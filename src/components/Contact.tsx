@@ -38,7 +38,7 @@ export default function Contact() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="mx-auto mb-10 max-w-xl leading-relaxed text-slate-400"
         >
@@ -49,7 +49,7 @@ export default function Contact() {
           href="mailto:ricardocanoc06@gmail.com"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
           className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:-translate-y-0.5 hover:shadow-cyan-500/30"
         >
@@ -65,7 +65,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
               className={`glass flex items-center gap-4 rounded-xl p-4 text-left transition hover:border-violet-400/40 hover:bg-white/[0.06] ${
                 c.wide ? 'sm:col-span-2' : ''
