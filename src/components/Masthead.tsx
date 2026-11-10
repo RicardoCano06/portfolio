@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useI18n, type Lang } from '../i18n'
+import { ScrollProgress } from './motion'
 
 export default function Masthead() {
   const { t } = useI18n()
@@ -50,7 +51,7 @@ export default function Masthead() {
             <a
               key={link.href}
               href={link.href}
-              className="flex items-baseline gap-1.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft transition-colors hover:text-ink"
+              className="relative flex items-baseline gap-1.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-oxide after:transition-[width] after:duration-300 after:content-[''] hover:text-ink hover:after:w-full"
             >
               <span className="tabular-nums text-oxide">0{i + 1}</span>
               {link.label}
@@ -120,6 +121,7 @@ export default function Masthead() {
           </div>
         </div>
       </dialog>
+      <ScrollProgress className="absolute inset-x-0 bottom-0 h-0.5 bg-oxide" />
     </header>
   )
 }

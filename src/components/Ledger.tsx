@@ -1,5 +1,6 @@
 import SectionHeader from './SectionHeader'
 import { useI18n, type Lang } from '../i18n'
+import { Reveal, Stagger, StaggerItem } from './motion'
 
 function formatPeriod(
   start: string,
@@ -43,77 +44,85 @@ export default function Ledger() {
 
         <div className="mt-10 grid gap-14 md:mt-14">
           <div>
-            <h3 className="flex items-baseline gap-3 border-b border-ink pb-3 font-mono text-[10px] uppercase tracking-[0.16em]">
-              <span className="tabular-nums text-oxide">04.1</span>
-              {t.experience.workLabel}
-            </h3>
+            <Reveal>
+              <h3 className="flex items-baseline gap-3 border-b border-ink pb-3 font-mono text-[10px] uppercase tracking-[0.16em]">
+                <span className="tabular-nums text-oxide">04.1</span>
+                {t.experience.workLabel}
+              </h3>
+            </Reveal>
 
             <TableHead
               columns={[t.experience.period, t.experience.role, t.experience.org]}
             />
 
-            {t.experience.work.map((job) => (
-              <div
-                key={`${job.role}-${job.start}`}
-                className="grid grid-cols-12 gap-x-4 gap-y-2 border-b border-ink/15 py-5"
-              >
-                <p className="col-span-12 font-mono text-[11px] tabular-nums tracking-[0.02em] md:col-span-3">
-                  {formatPeriod(job.start, job.end, lang, t.experience.present)}
-                </p>
-
-                <div className="col-span-12 md:col-span-5">
-                  <h4 className="text-[15px] font-semibold leading-snug">{job.role}</h4>
-                  <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-ink-soft">
-                    {job.desc}
+            <Stagger amount={0.1}>
+              {t.experience.work.map((job) => (
+                <StaggerItem
+                  key={`${job.role}-${job.start}`}
+                  className="grid grid-cols-12 gap-x-4 gap-y-2 border-b border-ink/15 py-5"
+                >
+                  <p className="col-span-12 font-mono text-[11px] tabular-nums tracking-[0.02em] md:col-span-3">
+                    {formatPeriod(job.start, job.end, lang, t.experience.present)}
                   </p>
-                </div>
 
-                <p className="col-span-12 text-sm leading-relaxed text-ink-soft md:col-span-4">
-                  {job.org}
-                </p>
-              </div>
-            ))}
+                  <div className="col-span-12 md:col-span-5">
+                    <h4 className="text-[15px] font-semibold leading-snug">{job.role}</h4>
+                    <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-ink-soft">
+                      {job.desc}
+                    </p>
+                  </div>
+
+                  <p className="col-span-12 text-sm leading-relaxed text-ink-soft md:col-span-4">
+                    {job.org}
+                  </p>
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
 
           <div>
-            <h3 className="flex items-baseline gap-3 border-b border-ink pb-3 font-mono text-[10px] uppercase tracking-[0.16em]">
-              <span className="tabular-nums text-oxide">04.2</span>
-              {t.experience.eduLabel}
-            </h3>
+            <Reveal>
+              <h3 className="flex items-baseline gap-3 border-b border-ink pb-3 font-mono text-[10px] uppercase tracking-[0.16em]">
+                <span className="tabular-nums text-oxide">04.2</span>
+                {t.experience.eduLabel}
+              </h3>
+            </Reveal>
 
             <TableHead
               columns={[t.experience.period, t.experience.degree, t.experience.institution]}
             />
 
-            {t.experience.education.map((edu) => (
-              <div
-                key={`${edu.degree}-${edu.start}`}
-                className="grid grid-cols-12 gap-x-4 gap-y-2 border-b border-ink/15 py-5"
-              >
-                <p className="col-span-12 font-mono text-[11px] tabular-nums tracking-[0.02em] md:col-span-3">
-                  {formatPeriod(
-                    edu.start,
-                    edu.end,
-                    lang,
-                    t.experience.present,
-                    edu.precision,
-                  )}
-                </p>
+            <Stagger amount={0.1}>
+              {t.experience.education.map((edu) => (
+                <StaggerItem
+                  key={`${edu.degree}-${edu.start}`}
+                  className="grid grid-cols-12 gap-x-4 gap-y-2 border-b border-ink/15 py-5"
+                >
+                  <p className="col-span-12 font-mono text-[11px] tabular-nums tracking-[0.02em] md:col-span-3">
+                    {formatPeriod(
+                      edu.start,
+                      edu.end,
+                      lang,
+                      t.experience.present,
+                      edu.precision,
+                    )}
+                  </p>
 
-                <div className="col-span-12 md:col-span-5">
-                  <h4 className="text-[15px] font-semibold leading-snug">{edu.degree}</h4>
-                  {edu.note && (
-                    <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-ink-soft">
-                      {edu.note}
-                    </p>
-                  )}
-                </div>
+                  <div className="col-span-12 md:col-span-5">
+                    <h4 className="text-[15px] font-semibold leading-snug">{edu.degree}</h4>
+                    {edu.note && (
+                      <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-ink-soft">
+                        {edu.note}
+                      </p>
+                    )}
+                  </div>
 
-                <p className="col-span-12 text-sm leading-relaxed text-ink-soft md:col-span-4">
-                  {edu.org}
-                </p>
-              </div>
-            ))}
+                  <p className="col-span-12 text-sm leading-relaxed text-ink-soft md:col-span-4">
+                    {edu.org}
+                  </p>
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
         </div>
       </div>

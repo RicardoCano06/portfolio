@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react'
+import { MotionConfig } from 'framer-motion'
 import { I18nProvider, useI18n } from './i18n'
 import Masthead from './components/Masthead'
 import Cover from './components/Cover'
@@ -13,7 +14,9 @@ import Colophon from './components/Colophon'
 export default function App() {
   return (
     <I18nProvider>
-      <Shell />
+      <MotionConfig reducedMotion="user">
+        <Shell />
+      </MotionConfig>
     </I18nProvider>
   )
 }

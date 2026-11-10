@@ -1,6 +1,7 @@
 import SectionHeader from './SectionHeader'
 import { projects, type Project } from '../data/projects'
 import { useI18n } from '../i18n'
+import { RevealImage, Reveal, StaggerLi, StaggerList } from './motion'
 
 type FeaturedProject = Project & { image: string }
 
@@ -22,9 +23,11 @@ export default function Work() {
       <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 md:py-24 lg:px-14">
         <SectionHeader index="03" title={t.work.title} />
 
-        <p className="mt-6 max-w-[54ch] text-[15px] leading-relaxed text-pretty text-ink-soft">
-          {t.work.intro}
-        </p>
+        <Reveal>
+          <p className="mt-6 max-w-[54ch] text-[15px] leading-relaxed text-pretty text-ink-soft">
+            {t.work.intro}
+          </p>
+        </Reveal>
 
         {featured.map((project) => (
           <Featured key={project.id} project={project} seq={projects.indexOf(project) + 1} />
@@ -32,12 +35,14 @@ export default function Work() {
 
         {rest.length > 0 && (
           <>
-            <h3 className="mt-16 flex items-baseline gap-3 border-t border-ink pt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft">
-              <span className="tabular-nums text-oxide">03</span>
-              {t.work.more}
-            </h3>
+            <Reveal>
+              <h3 className="mt-16 flex items-baseline gap-3 border-t border-ink pt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft">
+                <span className="tabular-nums text-oxide">03</span>
+                {t.work.more}
+              </h3>
+            </Reveal>
 
-            <ul>
+            <StaggerList amount={0.05}>
               {rest.map((project) => (
                 <ProjectRow
                   key={project.id}
@@ -45,7 +50,7 @@ export default function Work() {
                   seq={projects.indexOf(project) + 1}
                 />
               ))}
-            </ul>
+            </StaggerList>
           </>
         )}
       </div>
@@ -59,26 +64,27 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
 
   return (
     <article className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 md:mt-14">
-      <figure className="col-span-12 lg:col-span-8">
-        <div className="border border-ink bg-paper-deep">
-          <img
-            src={project.image}
-            alt={copy.caption ?? copy.title}
-            width={project.imageWidth}
-            height={project.imageHeight}
-            loading="lazy"
-            className="block h-auto w-full"
-          />
-        </div>
-        <figcaption className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
-          <span>
-            {t.work.fig}. {pad(seq)} — {copy.caption}
-          </span>
-          <span className="tabular-nums text-oxide">03.{pad(seq)}</span>
-        </figcaption>
-      </figure>
+      <Reveal className="col-span-12 lg:col-span-8">
+        <figure>
+          <div className="border border-ink bg-paper-deep">
+            <RevealImage
+              src={project.image}
+              alt={copy.caption ?? copy.title}
+              width={project.imageWidth ?? 1440}
+              height={project.imageHeight ?? 900}
+              className="aspect-[16/10]"
+            />
+          </div>
+          <figcaption className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
+            <span>
+              {t.work.fig}. {pad(seq)} — {copy.caption}
+            </span>
+            <span className="tabular-nums text-oxide">03.{pad(seq)}</span>
+          </figcaption>
+        </figure>
+      </Reveal>
 
-      <div className="col-span-12 lg:col-span-4">
+      <Reveal className="col-span-12 lg:col-span-4" delay={0.15}>
         <div className="flex items-baseline justify-between gap-3">
           <span className="font-mono text-[10px] tabular-nums tracking-[0.16em] text-oxide">
             03.{pad(seq)}
@@ -102,7 +108,7 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
         </dl>
 
         <ProjectLinks project={project} title={copy.title} />
-      </div>
+      </Reveal>
     </article>
   )
 }
@@ -112,7 +118,7 @@ function ProjectRow({ project, seq }: { project: Project; seq: number }) {
   const copy = project[lang]
 
   return (
-    <li className="border-b border-ink/15 py-7">
+    <StaggerLi className="border-b border-ink/15 py-7">
       <div className="grid grid-cols-12 gap-x-6 gap-y-4">
         <div className="col-span-12 lg:col-span-5">
           <div className="flex items-baseline gap-3">
@@ -143,7 +149,7 @@ function ProjectRow({ project, seq }: { project: Project; seq: number }) {
           <ProjectLinks project={project} title={copy.title} />
         </div>
       </div>
-    </li>
+    </StaggerLi>
   )
 }
 
