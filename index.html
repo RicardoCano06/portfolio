@@ -2,21 +2,47 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Resolve the UI language before first paint to avoid a flash of the wrong locale.
+      try {
+        var params = new URLSearchParams(window.location.search)
+        var saved = window.localStorage.getItem('lang')
+        var fromUrl = params.get('lang')
+        if (fromUrl === 'en' || fromUrl === 'es') {
+          document.documentElement.lang = fromUrl
+        } else if (saved === 'en' || saved === 'es') {
+          document.documentElement.lang = saved
+        } else {
+          var preferred = navigator.languages && navigator.languages.length
+            ? navigator.languages
+            : [navigator.language]
+          var match = preferred
+            .map(function (tag) { return tag.toLowerCase() })
+            .filter(function (tag) {
+              return tag.indexOf('es') === 0 || tag.indexOf('en') === 0
+            })[0]
+          document.documentElement.lang = match && match.indexOf('en') === 0 ? 'en' : 'es'
+        }
+      } catch (e) {
+        // Keep the default lang attribute
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
     <meta
       name="description"
-      content="Portfolio de Ricardo Cano — Desarrollador Full Stack. React, TypeScript, Node.js y PostgreSQL."
+      content="Portafolio de Ricardo Cano, desarrollador full stack en Paraguay. React, TypeScript, Node.js y PostgreSQL. Sistemas completos, desplegados y en uso."
     />
-    <meta name="theme-color" content="#07070f" />
+    <meta name="theme-color" content="#efe9dd" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.ricardocano.tech/" />
     <meta property="og:site_name" content="Ricardo Cano" />
-    <meta property="og:title" content="Ricardo Cano · Full Stack Developer" />
+    <meta property="og:title" content="Ricardo Cano — Full Stack Developer" />
     <meta
       property="og:description"
-      content="Desarrollador Full Stack: React, TypeScript, Node.js y PostgreSQL. Con proyectos reales desplegados en producción."
+      content="Sistemas completos: React, TypeScript, Node.js y PostgreSQL. Proyectos reales, desplegados y en uso."
     />
     <meta property="og:image" content="https://www.ricardocano.tech/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -26,19 +52,19 @@
     <meta property="og:locale:alternate" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Ricardo Cano · Full Stack Developer" />
+    <meta name="twitter:title" content="Ricardo Cano — Full Stack Developer" />
     <meta
       name="twitter:description"
-      content="Desarrollador Full Stack: React, TypeScript, Node.js y PostgreSQL. Con proyectos reales desplegados en producción."
+      content="Sistemas completos: React, TypeScript, Node.js y PostgreSQL. Proyectos reales, desplegados y en uso."
     />
     <meta name="twitter:image" content="https://www.ricardocano.tech/og-image.png" />
 
-    <title>Ricardo Cano</title>
+    <title>Ricardo Cano — Full Stack Developer</title>
     <link rel="canonical" href="https://www.ricardocano.tech/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
   </head>

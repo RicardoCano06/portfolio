@@ -1,124 +1,84 @@
-﻿import { CalendarCheck2, Dumbbell, PartyPopper } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import {
-  siCloudflare,
-  siExpress,
-  siJavascript,
-  siPostgresql,
-  siReact,
-  siSupabase,
-  siTailwindcss,
-  siTypescript,
-  siVite,
-  siZod,
-} from 'simple-icons'
-import type { SimpleIcon } from 'simple-icons'
+﻿export type ProjectId = 'palmares' | 'vekt' | 'asistencia'
 
-export type ProjectId = 'vekt' | 'asistencia' | 'palmares'
-
-interface ProjectContent {
+export interface ProjectCopy {
   title: string
   subtitle: string
   desc: string
-  badge: string
-}
-
-export interface TechItem {
-  name: string
-  icon?: SimpleIcon
-  color?: string
+  role: string
+  caption?: string
 }
 
 export interface Project {
   id: ProjectId
-  icon: LucideIcon
-  gradient: string
+  image?: string
+  imageWidth?: number
+  imageHeight?: number
   demo?: string
   github?: string
-  tech: TechItem[]
-  es: ProjectContent
-  en: ProjectContent
+  tech: string[]
+  es: ProjectCopy
+  en: ProjectCopy
 }
 
 export const projects: Project[] = [
   {
+    id: 'palmares',
+    image: '/work/palmares.jpg',
+    imageWidth: 1440,
+    imageHeight: 900,
+    demo: 'https://palmares-eventos.ricardocanoc06.workers.dev/',
+    github: 'https://github.com/RicardoCano06/Palmares-Eventos',
+    tech: ['React 18', 'JavaScript', 'Vite', 'Tailwind CSS', 'Cloudflare Pages'],
+    es: {
+      title: 'Palmares — Salón de Eventos',
+      subtitle: 'Sitio comercial para salón de eventos',
+      role: 'Proyecto comercial',
+      desc: 'Aplicación estática de alto rendimiento en la red edge de Cloudflare. Galería, carrusel y flujo de cotización por WhatsApp, orientada a conversión.',
+      caption: 'Portada de Palmares, sitio desplegado',
+    },
+    en: {
+      title: 'Palmares — Event Venue',
+      subtitle: 'Commercial website for an event venue',
+      role: 'Commercial project',
+      desc: 'High-performance static application on Cloudflare’s edge network. Gallery, carousel and WhatsApp quote flow, built for conversion.',
+      caption: 'Palmares landing page, deployed site',
+    },
+  },
+  {
     id: 'vekt',
-    icon: Dumbbell,
-    gradient: 'from-violet-600/40 via-purple-500/20 to-cyan-500/30',
     demo: 'https://vekt.ricardocanoc06.workers.dev/',
     github: 'https://github.com/RicardoCano06/Vekt',
-    tech: [
-      { name: 'React 19', icon: siReact },
-      { name: 'TypeScript', icon: siTypescript },
-      { name: 'Vite', icon: siVite },
-      { name: 'Supabase', icon: siSupabase },
-      { name: 'Tailwind CSS', icon: siTailwindcss },
-    ],
+    tech: ['React 19', 'TypeScript', 'Vite', 'Supabase', 'Tailwind CSS'],
     es: {
       title: 'Vekt',
-      subtitle: 'Entrenamiento con sobrecarga progresiva',
-      desc: 'SPA offline-first con persistencia local de registros complejos, internacionalización dinámica (ES/EN) y un entorno Sandbox aislado de la base de datos de producción para demostraciones seguras.',
-      badge: 'Proyecto personal',
+      subtitle: 'Registro de entrenamiento con sobrecarga progresiva',
+      role: 'Proyecto personal',
+      desc: 'SPA offline-first con persistencia local, internacionalización ES/EN y un entorno sandbox aislado de la base de datos de producción. Registra rutinas, series y volumen semanal.',
     },
     en: {
       title: 'Vekt',
       subtitle: 'Progressive overload training tracker',
-      desc: 'Offline-first SPA with local persistence for complex records, dynamic internationalization (ES/EN), and a Sandbox environment isolated from the production database for safe demos.',
-      badge: 'Personal project',
+      role: 'Personal project',
+      desc: 'Offline-first SPA with local persistence, ES/EN internationalization and a sandbox environment isolated from the production database. Tracks routines, sets and weekly volume.',
     },
   },
   {
     id: 'asistencia',
-    icon: CalendarCheck2,
-    gradient: 'from-sky-500/40 via-blue-500/20 to-indigo-500/30',
     demo: 'https://asistenciaung.dev',
     github:
       'https://github.com/RicardoCano06/Sistema-de-Gestion-de-Asistencia-Academica',
-    tech: [
-      { name: 'React', icon: siReact },
-      { name: 'TypeScript', icon: siTypescript },
-      { name: 'Express', icon: siExpress, color: '#E8E8E8' },
-      { name: 'PostgreSQL', icon: siPostgresql },
-      { name: 'Supabase', icon: siSupabase },
-      { name: 'Zod', icon: siZod },
-    ],
+    tech: ['React', 'TypeScript', 'Express', 'PostgreSQL', 'Supabase', 'Zod'],
     es: {
       title: 'Sistema de Gestión de Asistencia Académica',
       subtitle: 'Control y seguimiento de asistencia',
-      desc: 'Arquitectura RESTful en Node.js con validación estricta de esquemas de datos (Zod) en los endpoints. Base de datos PostgreSQL diseñada para garantizar integridad referencial y consistencia transaccional de registros académicos.',
-      badge: 'Proyecto de tesis',
+      role: 'Proyecto de tesis',
+      desc: 'Sistema de tesis para la Universidad Nihon Gakko. API REST en Node.js con validación de esquemas Zod y PostgreSQL diseñado para integridad referencial y consistencia transaccional.',
     },
     en: {
       title: 'Academic Attendance Management System',
-      subtitle: 'Attendance control & tracking',
-      desc: 'RESTful architecture in Node.js with strict data schema validation (Zod) on endpoints. PostgreSQL database designed to guarantee referential integrity and transactional consistency of academic records.',
-      badge: 'Thesis project',
-    },
-  },
-  {
-    id: 'palmares',
-    icon: PartyPopper,
-    gradient: 'from-amber-500/40 via-orange-500/20 to-pink-500/30',
-    demo: 'https://palmares-eventos.ricardocanoc06.workers.dev/',
-    github: 'https://github.com/RicardoCano06/Palmares-Eventos',
-    tech: [
-      { name: 'React 18', icon: siReact },
-      { name: 'JavaScript', icon: siJavascript },
-      { name: 'Vite', icon: siVite },
-      { name: 'Tailwind CSS', icon: siTailwindcss },
-      { name: 'Cloudflare Pages', icon: siCloudflare },
-    ],
-    es: {
-      title: 'Palmares — Salón de Eventos',
-      subtitle: 'Sitio comercial',
-      desc: 'Aplicación comercial estática de alto rendimiento desplegada en la red edge de Cloudflare. Interfaz interactiva optimizada para conversión, con galería, carrusel e integración de flujos de cotización hacia WhatsApp.',
-      badge: 'Proyecto comercial',
-    },
-    en: {
-      title: 'Palmares — Event Venue',
-      subtitle: 'Commercial website',
-      desc: 'High-performance static commercial application deployed on the Cloudflare edge network. Interactive conversion-focused interface with gallery, carousel and WhatsApp quote flow integration.',
-      badge: 'Commercial project',
+      subtitle: 'Attendance control and tracking',
+      role: 'Thesis project',
+      desc: 'Thesis system for Universidad Nihon Gakko. Node.js REST API with Zod schema validation and PostgreSQL designed for referential integrity and transactional consistency.',
     },
   },
 ]

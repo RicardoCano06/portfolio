@@ -1,86 +1,90 @@
-import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Send } from 'lucide-react'
-import SectionHeading from './SectionHeading'
 import { useI18n } from '../i18n'
 
 export default function Contact() {
   const { t } = useI18n()
 
-  const cards = [
+  const channels = [
     {
-      icon: Mail,
-      label: t.contact.email,
-      value: 'ricardocanoc06@gmail.com',
-      href: 'mailto:ricardocanoc06@gmail.com',
-      wide: true,
-    },
-    {
-      icon: Linkedin,
       label: t.contact.linkedin,
-      value: t.contact.linkedinHandle,
+      value: t.contact.linkedinValue,
       href: 'https://www.linkedin.com/in/ricardojosecanocenturion',
-      wide: false,
+      external: true,
+      download: false,
     },
     {
-      icon: Github,
       label: t.contact.github,
-      value: t.contact.githubHandle,
+      value: t.contact.githubValue,
       href: 'https://github.com/RicardoCano06',
-      wide: false,
+      external: true,
+      download: false,
+    },
+    {
+      label: t.contact.cv,
+      value: t.contact.cvValue,
+      href: '/CV_Ricardo_Cano.pdf',
+      external: false,
+      download: true,
     },
   ]
 
   return (
-    <section id="contact" className="py-24">
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        <SectionHeading eyebrow={t.contact.eyebrow} title={t.contact.title} align="center" />
+    <section id="contact" className="bg-ink text-paper">
+      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 md:py-24 lg:px-14">
+        <div className="flex items-baseline justify-between gap-4 border-b border-paper/20 pb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-paper/60">
+          <span>05 / {t.contact.title}</span>
+          <span>RC / 2026</span>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="mx-auto mb-10 max-w-xl leading-relaxed text-slate-400"
-        >
-          {t.contact.subtitle}
-        </motion.p>
+        <h2 className="mt-10 whitespace-nowrap font-display text-[clamp(1.6rem,8.5vw,8rem)] font-extrabold uppercase leading-[0.85] tracking-[-0.045em]">
+          {t.contact.big}
+          <span className="text-oxide-light">.</span>
+        </h2>
 
-        <motion.a
+        <p className="mt-8 max-w-[46ch] text-pretty text-lg leading-relaxed text-paper/70">
+          {t.contact.lead}
+        </p>
+
+        <a
           href="mailto:ricardocanoc06@gmail.com"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
-          className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:-translate-y-0.5 hover:shadow-cyan-500/30"
+          className="mt-10 inline-block break-all border-b-2 border-paper/30 pb-2 font-mono text-lg transition-colors hover:border-oxide-light hover:text-oxide-light sm:text-2xl md:text-3xl"
         >
-          <Send size={17} /> {t.contact.sendEmail}
-        </motion.a>
+          ricardocanoc06@gmail.com
+        </a>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          {cards.map((c, i) => (
-            <motion.a
-              key={c.label}
-              href={c.href}
-              target={c.href.startsWith('http') ? '_blank' : undefined}
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-              className={`glass flex items-center gap-4 rounded-xl p-4 text-left transition hover:border-violet-400/40 hover:bg-white/[0.06] ${
-                c.wide ? 'sm:col-span-2' : ''
-              }`}
+        <div className="mt-14 grid gap-px border-t border-paper/20 bg-paper/20 sm:grid-cols-3">
+          {channels.map((channel) => (
+            <a
+              key={channel.label}
+              href={channel.href}
+              {...(channel.external
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+              {...(channel.download
+                ? { download: 'CV_Ricardo_Cano.pdf' }
+                : {})}
+              className="group flex flex-col justify-between gap-8 bg-ink p-4 transition-colors hover:text-oxide-light sm:p-5"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500/25 to-cyan-500/25 text-cyan-300">
-                <c.icon size={19} />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-xs uppercase tracking-wider text-slate-500">
-                  {c.label}
+              <span className="flex items-baseline justify-between gap-3">
+                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-paper/60">
+                  {channel.label}
                 </span>
-                <span className="block truncate text-sm font-medium text-white">{c.value}</span>
+                <span
+                  aria-hidden="true"
+                  className="font-mono text-[11px] text-paper/60 transition-colors group-hover:text-oxide-light"
+                >
+                  {channel.download ? '↓' : '↗'}
+                </span>
               </span>
-            </motion.a>
+              <span
+                translate="no"
+                className="break-all font-mono text-[11px] uppercase leading-relaxed tracking-[0.03em]"
+              >
+                {channel.value}
+              </span>
+              {channel.external && (
+                <span className="sr-only">({t.a11y.external})</span>
+              )}
+            </a>
           ))}
         </div>
       </div>

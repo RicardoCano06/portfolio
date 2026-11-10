@@ -15,9 +15,32 @@ interface I18nValue {
 
 const I18nContext = createContext<I18nValue | null>(null)
 
+function isLang(value: string | null): value is Lang {
+  return value === 'es' || value === 'en'
+}
+
 function initialLang(): Lang {
-  const saved = window.localStorage.getItem('lang')
-  return saved === 'en' || saved === 'es' ? saved : 'es'
+  const fromUrl = new URLSearchParams(window.location.search).get('lang')
+  if (isLang(fromUrl)) return fromUrl
+
+  try {
+    const saved = window.localStorage.getItem('lang')
+    if (isLang(saved)) return saved
+  } catch {
+    // localStorage can be unavailable (private mode, blocked cookies)
+  }
+
+  const preferred = navigator.languages?.length
+    ? navigator.languages
+    : [navigator.language]
+
+  for (const tag of preferred) {
+    const base = tag.toLowerCase()
+    if (base.startsWith('es')) return 'es'
+    if (base.startsWith('en')) return 'en'
+  }
+
+  return 'es'
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
@@ -25,7 +48,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const setLang = (l: Lang) => {
     setLangState(l)
-    window.localStorage.setItem('lang', l)
+    try {
+      window.localStorage.setItem('lang', l)
+    } catch {
+      // Persisting the preference is best-effort
+    }
+
+    const url = new URL(window.location.href)
+    url.searchParams.set('lang', l)
+    window.history.replaceState({}, '', url)
   }
 
   useEffect(() => {
