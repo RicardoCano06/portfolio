@@ -9,6 +9,19 @@ Cuatro direcciones visuales sobre el mismo contenido, los mismos datos y el mism
 | 3 | `editorial-brutalista` | Revista de diseño | Blanco cálido, bermellón | Instrument Serif / Archivo / IBM Plex Mono | Capitulares, doble regla, índice técnico |
 | 4 | `senaletica-industrial` | Manual de máquina | Hormigón, negro, naranja de seguridad | Big Shoulders Stencil / Barlow Condensed / IBM Plex Mono | Franjas de peligro y hojas de equipo |
 
+## Movimiento
+
+Cada opción tiene un sistema propio, no un fade genérico:
+
+| Rama | Entrada | Scroll | Micro-interacción |
+|------|---------|--------|-------------------|
+| Color hueso | máscaras de línea en el nombre | reveals escalonados, fichas y filas | subrayado que se dibuja, flechas que bajan, imagen con zoom |
+| Terminal | tipeo real de comandos y cursor | salida por líneas, progreso ASCII en la barra | paleta animada, scanline CRT de entrada |
+| Editorial | máscaras serif y regla bermellón | palabras que suben, telón de imagen, progreso de lectura | numerales que se desplazan, flechas |
+| Señalética | placas que se imprimen de izquierda a derecha | sellos con resorte, contadores, cinta de progreso | botones que invierten, obturador de imagen |
+
+Todo respeta `prefers-reduced-motion`: con movimiento reducido, el contenido aparece en su estado final sin animaciones de transformación.
+
 ## Capturas
 
 ### 01 — Color hueso
