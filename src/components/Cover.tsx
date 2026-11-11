@@ -28,7 +28,7 @@ export default function Cover() {
             </MaskLine>
           </h1>
 
-          <div className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 border-t border-ink/15 pt-6 lg:mt-14">
+          <div className="mt-10 grid grid-cols-12 gap-x-4 gap-y-8 border-t border-ink/15 pt-6 lg:mt-14 lg:gap-x-8">
             <Reveal className="col-span-12 lg:col-span-7" delay={0.45}>
               <div className="flex items-center gap-3">
                 <motion.span

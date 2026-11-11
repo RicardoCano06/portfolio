@@ -21,7 +21,7 @@ export default function Stack() {
           {skillGroups.map((group, gi) => (
             <StaggerItem
               key={group.id}
-              className="grid grid-cols-12 gap-x-6 gap-y-3 border-b border-ink/15 py-5 transition-colors hover:bg-ink/[0.03]"
+              className="grid grid-cols-12 gap-x-4 gap-y-3 border-b border-ink/15 py-5 transition-colors hover:bg-ink/[0.03] md:gap-x-6"
             >
               <div className="col-span-12 flex items-baseline gap-3 md:col-span-3">
                 <span className="font-mono text-[9px] tabular-nums tracking-[0.14em] text-oxide">

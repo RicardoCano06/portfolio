@@ -63,7 +63,7 @@ function Featured({ project, seq }: { project: Project; seq: number }) {
   const copy = project[lang]
 
   return (
-    <article className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 md:mt-14">
+    <article className="mt-10 grid grid-cols-12 gap-x-4 gap-y-8 md:mt-14 lg:gap-x-8">
       <Reveal className="col-span-12 lg:col-span-8">
         {project.phoneShots && project.phoneShots.length > 0 ? (
           <PhoneShowcase project={project} />
@@ -125,7 +125,7 @@ function ProjectRow({ project, seq }: { project: Project; seq: number }) {
 
   return (
     <StaggerLi className="border-b border-ink/15 py-7">
-      <div className="grid grid-cols-12 gap-x-6 gap-y-4">
+      <div className="grid grid-cols-12 gap-x-4 gap-y-4 lg:gap-x-6">
         <div className="col-span-12 lg:col-span-5">
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-[10px] tabular-nums text-oxide">03.{pad(seq)}</span>

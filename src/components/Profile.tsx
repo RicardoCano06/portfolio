@@ -19,7 +19,7 @@ export default function Profile() {
       <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 md:py-24 lg:px-14">
         <SectionHeader index="01" title={t.profile.title} />
 
-        <div className="mt-10 grid grid-cols-12 gap-x-8 gap-y-12 md:mt-14">
+        <div className="mt-10 grid grid-cols-12 gap-x-4 gap-y-12 md:mt-14 lg:gap-x-8">
           <Reveal className="col-span-12 lg:col-span-7" y={30}>
             <p className="max-w-[19ch] text-balance font-display text-[clamp(2rem,3.6vw,3.4rem)] font-bold leading-[1.04] tracking-[-0.03em]">
               {t.profile.lead}
