@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 const INK = '20, 19, 15'
 const OXIDE = '164, 59, 28'
 
-type Kind = 'target' | 'ring' | 'arc' | 'triangle' | 'square' | 'plus' | 'dots'
+type Kind = 'frame' | 'triangle' | 'diamond' | 'square' | 'chevron' | 'plus' | 'bracket' | 'spark'
 
 interface Shape {
   kind: Kind
@@ -38,9 +38,11 @@ const SPOTS: Array<[number, number]> = [
   [0.35, 0.6],
   [0.08, 0.9],
   [0.66, 0.39],
+  [0.18, 0.12],
+  [0.5, 0.75],
 ]
 
-const KINDS: Kind[] = ['ring', 'arc', 'triangle', 'square', 'plus', 'dots']
+const KINDS: Kind[] = ['triangle', 'diamond', 'square', 'chevron', 'plus', 'bracket', 'spark']
 
 function seeded(seed: number) {
   return () => {
@@ -67,22 +69,22 @@ function buildLinks(shapes: Shape[]): Array<[number, number]> {
 function createShapes(): Shape[] {
   const rand = seeded(20261111)
   return SPOTS.map(([x, y], index) => {
-    const kind: Kind = index === 0 ? 'target' : index === 1 ? 'target' : KINDS[Math.floor(rand() * KINDS.length)]
-    const oxide = index === 1 || rand() > 0.8
-    const target = kind === 'target'
+    const frame = index < 2
+    const kind: Kind = frame ? 'frame' : KINDS[Math.floor(rand() * KINDS.length)]
+    const oxide = index === 1 || rand() > 0.76
     return {
       kind,
       x,
       y,
-      scale: target ? (index === 0 ? 0.34 : 0.22) : 0.022 + rand() * 0.062,
-      depth: target ? 0.35 + rand() * 0.3 : 0.4 + rand() * 0.6,
+      scale: frame ? (index === 0 ? 0.32 : 0.2) : 0.026 + rand() * 0.062,
+      depth: frame ? 0.35 + rand() * 0.3 : 0.4 + rand() * 0.6,
       driftX: 0.006 + rand() * 0.016,
       driftY: 0.006 + rand() * 0.016,
       speed: 0.07 + rand() * 0.16,
       phase: rand() * Math.PI * 2,
       rot: rand() * Math.PI * 2,
-      spin: (rand() - 0.5) * 0.18,
-      alpha: target ? 0.075 : 0.12 + rand() * 0.05,
+      spin: (rand() - 0.5) * 0.2,
+      alpha: frame ? 0.16 : oxide ? 0.3 + rand() * 0.06 : 0.22 + rand() * 0.06,
       oxide,
     }
   })
@@ -131,14 +133,10 @@ export default function AmbientGeometry() {
       draw(reduced ? 0 : (performance.now() - start) / 1000)
     }
 
-    const stroke = (shape: Shape, alpha: number) => {
-      ctx.strokeStyle = `rgba(${shape.oxide ? OXIDE : INK}, ${alpha.toFixed(3)})`
-    }
-
-    const polygon = (sides: number, radius: number) => {
+    const polygon = (sides: number, radius: number, rotation = 0) => {
       ctx.beginPath()
       for (let i = 0; i <= sides; i += 1) {
-        const angle = (Math.PI * 2 * i) / sides - Math.PI / 2
+        const angle = rotation + (Math.PI * 2 * i) / sides - Math.PI / 2
         const px = Math.cos(angle) * radius
         const py = Math.sin(angle) * radius
         if (i === 0) ctx.moveTo(px, py)
@@ -147,82 +145,127 @@ export default function AmbientGeometry() {
       ctx.stroke()
     }
 
+    const squareAt = (x: number, y: number, size: number, rotation: number) => {
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.rotate(rotation)
+      ctx.fillRect(-size / 2, -size / 2, size, size)
+      ctx.restore()
+    }
+
     const drawShape = (shape: Shape, cx: number, cy: number, radius: number, time: number) => {
-      const alpha = shape.alpha * (0.72 + shape.depth * 0.28)
-      stroke(shape, alpha)
+      const alpha = shape.alpha * (0.78 + shape.depth * 0.22)
+      ctx.strokeStyle = `rgba(${shape.oxide ? OXIDE : INK}, ${alpha.toFixed(3)})`
       ctx.lineWidth = 1
+      ctx.lineJoin = 'miter'
       ctx.save()
       ctx.translate(cx, cy)
       ctx.rotate(shape.rot + time * shape.spin)
 
       switch (shape.kind) {
-        case 'target': {
-          for (const factor of [1, 0.62, 0.3]) {
+        case 'frame': {
+          const half = radius * 0.78
+          ctx.strokeRect(-half, -half, half * 2, half * 2)
+          const inner = radius * 0.32
+          ctx.strokeRect(-inner, -inner, inner * 2, inner * 2)
+          const tick = radius * 0.14
+          for (const [sx, sy] of [
+            [-1, -1],
+            [1, -1],
+            [1, 1],
+            [-1, 1],
+          ]) {
             ctx.beginPath()
-            ctx.arc(0, 0, radius * factor, 0, Math.PI * 2)
+            ctx.moveTo(sx * half, sy * half)
+            ctx.lineTo(sx * (half + tick), sy * half)
+            ctx.moveTo(sx * half, sy * half)
+            ctx.lineTo(sx * half, sy * (half + tick))
             ctx.stroke()
           }
-          for (let i = 0; i < 16; i += 1) {
-            const angle = (Math.PI * 2 * i) / 16
-            ctx.beginPath()
-            ctx.moveTo(Math.cos(angle) * radius * 0.86, Math.sin(angle) * radius * 0.86)
-            ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius)
-            ctx.stroke()
+          const progress = ((time * 0.11 + shape.phase) % 1) * 4
+          let bx = 0
+          let by = 0
+          if (progress < 1) {
+            bx = -half + half * 2 * progress
+            by = -half
+          } else if (progress < 2) {
+            bx = half
+            by = -half + half * 2 * (progress - 1)
+          } else if (progress < 3) {
+            bx = half - half * 2 * (progress - 2)
+            by = half
+          } else {
+            bx = -half
+            by = half - half * 2 * (progress - 3)
           }
-          const orbit = time * 0.35 + shape.phase
-          ctx.beginPath()
-          ctx.arc(Math.cos(orbit) * radius, Math.sin(orbit) * radius, Math.max(1.6, radius * 0.018), 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(${shape.oxide ? OXIDE : INK}, ${(alpha * 2.1).toFixed(3)})`
-          ctx.fill()
-          break
-        }
-        case 'ring': {
-          ctx.beginPath()
-          ctx.arc(0, 0, radius, 0, Math.PI * 2)
-          ctx.stroke()
-          ctx.beginPath()
-          ctx.arc(radius * 0.22, -radius * 0.16, radius * 0.1, 0, Math.PI * 2)
-          ctx.stroke()
-          break
-        }
-        case 'arc': {
-          ctx.beginPath()
-          ctx.arc(0, 0, radius, 0.25, Math.PI * 1.5)
-          ctx.stroke()
-          const end = Math.PI * 1.5
-          ctx.beginPath()
-          ctx.moveTo(0, 0)
-          ctx.lineTo(Math.cos(end) * radius, Math.sin(end) * radius)
-          ctx.stroke()
+          ctx.fillStyle = `rgba(${shape.oxide ? OXIDE : INK}, ${(alpha * 1.8).toFixed(3)})`
+          squareAt(bx, by, Math.max(3, radius * 0.028), Math.PI / 4)
           break
         }
         case 'triangle':
           polygon(3, radius)
           break
-        case 'square':
-          ctx.strokeRect(-radius * 0.7, -radius * 0.7, radius * 1.4, radius * 1.4)
+        case 'diamond':
+          polygon(4, radius)
           break
+        case 'square':
+          polygon(4, radius, Math.PI / 4)
+          break
+        case 'chevron': {
+          const reach = radius * 0.55
+          ctx.beginPath()
+          ctx.moveTo(-reach, -reach)
+          ctx.lineTo(reach * 0.15, 0)
+          ctx.lineTo(-reach, reach)
+          ctx.moveTo(-reach * 0.15, -reach)
+          ctx.lineTo(reach, 0)
+          ctx.lineTo(-reach * 0.15, reach)
+          ctx.stroke()
+          break
+        }
         case 'plus': {
-          const reach = radius * 0.62
+          const reach = radius * 0.7
           ctx.beginPath()
           ctx.moveTo(-reach, 0)
           ctx.lineTo(reach, 0)
           ctx.moveTo(0, -reach)
           ctx.lineTo(0, reach)
           ctx.stroke()
+          ctx.strokeRect(-radius * 0.2, -radius * 0.2, radius * 0.4, radius * 0.4)
+          break
+        }
+        case 'bracket': {
+          const half = radius * 0.62
+          const arm = radius * 0.46
           ctx.beginPath()
-          ctx.arc(0, 0, radius * 0.2, 0, Math.PI * 2)
+          ctx.moveTo(-half, -half + arm)
+          ctx.lineTo(-half, -half)
+          ctx.lineTo(-half + arm, -half)
+          ctx.moveTo(half, half - arm)
+          ctx.lineTo(half, half)
+          ctx.lineTo(half - arm, half)
+          ctx.stroke()
+          const short = arm * 0.55
+          ctx.beginPath()
+          ctx.moveTo(half, -half + short)
+          ctx.lineTo(half, -half)
+          ctx.lineTo(half - short, -half)
+          ctx.moveTo(-half, half - short)
+          ctx.lineTo(-half, half)
+          ctx.lineTo(-half + short, half)
           ctx.stroke()
           break
         }
-        case 'dots': {
-          const count = 10
-          for (let i = 0; i < count; i += 1) {
-            const angle = (Math.PI * 2 * i) / count
+        case 'spark': {
+          for (let i = 0; i < 8; i += 1) {
+            const angle = (Math.PI * i) / 4
+            const long = i % 2 === 0
+            const inner = radius * 0.16
+            const outer = radius * (long ? 1 : 0.62)
             ctx.beginPath()
-            ctx.arc(Math.cos(angle) * radius, Math.sin(angle) * radius, Math.max(1, radius * 0.055), 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(${shape.oxide ? OXIDE : INK}, ${alpha.toFixed(3)})`
-            ctx.fill()
+            ctx.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner)
+            ctx.lineTo(Math.cos(angle) * outer, Math.sin(angle) * outer)
+            ctx.stroke()
           }
           break
         }
@@ -238,7 +281,7 @@ export default function AmbientGeometry() {
       const interactive = pointer.active && fineQuery.matches && !reduced
       const px = pointer.smoothX
       const py = pointer.smoothY
-      const visible = shapes.slice(0, width < 768 ? 10 : shapes.length)
+      const visible = shapes.slice(0, width < 768 ? 11 : shapes.length)
       const scroll = window.scrollY
 
       const placed = visible.map((shape) => {
@@ -276,7 +319,7 @@ export default function AmbientGeometry() {
         const intensity = 1 - distance / maxDistance
         const pulse = 0.72 + 0.28 * Math.sin(time * 0.6 + i * 1.3)
         const oxide = from.shape.oxide || to.shape.oxide
-        const alpha = (oxide ? 0.13 : 0.08) * intensity * pulse
+        const alpha = (oxide ? 0.18 : 0.11) * intensity * pulse
         ctx.strokeStyle = `rgba(${oxide ? OXIDE : INK}, ${alpha.toFixed(3)})`
         ctx.lineWidth = 0.8
         ctx.beginPath()
@@ -292,7 +335,7 @@ export default function AmbientGeometry() {
           const dy = item.cy - py
           const distance = Math.hypot(dx, dy)
           if (distance > reach) continue
-          const fade = (1 - distance / reach) * 0.22
+          const fade = (1 - distance / reach) * 0.3
           ctx.strokeStyle = `rgba(${INK}, ${fade.toFixed(3)})`
           ctx.lineWidth = 0.75
           ctx.beginPath()
@@ -307,45 +350,49 @@ export default function AmbientGeometry() {
       }
 
       if (!reduced) {
-        for (let k = 0; k < Math.min(5, links.length); k += 1) {
-          const [a, b] = links[Math.floor((k * links.length) / 5)]
+        for (let k = 0; k < Math.min(6, links.length); k += 1) {
+          const [a, b] = links[Math.floor((k * links.length) / 6)]
           if (a >= placed.length || b >= placed.length) continue
           const from = placed[a]
           const to = placed[b]
           const distance = Math.hypot(to.cx - from.cx, to.cy - from.cy)
           if (distance > min * 0.46) continue
-          const progress = (time * 0.055 + k * 0.19) % 1
+          const progress = (time * 0.055 + k * 0.17) % 1
           for (let trail = 0; trail < 3; trail += 1) {
             const p = progress - trail * 0.014
             if (p < 0) continue
             const x = from.cx + (to.cx - from.cx) * p
             const y = from.cy + (to.cy - from.cy) * p
-            ctx.beginPath()
-            ctx.arc(x, y, 1.8 - trail * 0.45, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(${OXIDE}, ${(0.42 - trail * 0.12).toFixed(3)})`
-            ctx.fill()
+            const size = 4.2 - trail * 1.1
+            ctx.fillStyle = `rgba(${OXIDE}, ${(0.6 - trail * 0.16).toFixed(3)})`
+            squareAt(x, y, size, Math.PI / 4)
           }
         }
       }
 
       if (interactive) {
-        const reach = 22
-        ctx.strokeStyle = `rgba(${OXIDE}, 0.32)`
+        const size = 18
+        ctx.strokeStyle = `rgba(${OXIDE}, 0.55)`
         ctx.lineWidth = 1
-        ctx.beginPath()
-        ctx.arc(px, py, reach, 0, Math.PI * 2)
-        ctx.stroke()
-        for (const [dx, dy] of [
-          [reach + 5, 0],
-          [-reach - 5, 0],
-          [0, reach + 5],
-          [0, -reach - 5],
+        ctx.strokeRect(px - size, py - size, size * 2, size * 2)
+        const tick = 8
+        for (const [sx, sy] of [
+          [-1, -1],
+          [1, -1],
+          [1, 1],
+          [-1, 1],
         ]) {
+          const x = px + sx * size
+          const y = py + sy * size
           ctx.beginPath()
-          ctx.moveTo(px + dx, py + dy)
-          ctx.lineTo(px + dx * 0.72, py + dy * 0.72)
+          ctx.moveTo(x, y)
+          ctx.lineTo(x + sx * tick, y)
+          ctx.moveTo(x, y)
+          ctx.lineTo(x, y + sy * tick)
           ctx.stroke()
         }
+        ctx.fillStyle = `rgba(${OXIDE}, 0.6)`
+        ctx.fillRect(px - 1.5, py - 1.5, 3, 3)
       }
     }
 
