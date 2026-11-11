@@ -1,9 +1,11 @@
 ﻿export type ProjectId = 'sga' | 'palmares' | 'vekt'
 
-export interface ProjectImage {
-  src: string
+export interface ProjectShot {
+  light: string
+  dark: string
   alt: string
   caption: string
+  captionEn: string
 }
 
 export interface ProjectCopy {
@@ -19,7 +21,7 @@ export interface Project {
   image?: string
   imageWidth?: number
   imageHeight?: number
-  gallery?: ProjectImage[]
+  shots?: ProjectShot[]
   demo?: string
   github?: string
   tech: string[]
@@ -34,26 +36,41 @@ export const projects: Project[] = [
     image: '/work/sga/panel.png',
     imageWidth: 1440,
     imageHeight: 900,
-    gallery: [
+    shots: [
       {
-        src: '/work/sga/asistencias.png',
+        light: '/work/sga/panel.png',
+        dark: '/work/sga/panel-dark.png',
+        alt: 'Panel de control con métricas, riesgo académico y alertas',
+        caption: 'Panel de control con métricas, riesgo académico y alertas',
+        captionEn: 'Dashboard with metrics, academic risk and alerts',
+      },
+      {
+        light: '/work/sga/asistencias.png',
+        dark: '/work/sga/asistencias-dark.png',
         alt: 'Planilla de asistencia con marcado masivo y estados por alumno',
         caption: 'Planilla por curso con marcado masivo y estados por alumno',
+        captionEn: 'Course sheet with bulk marking and per-student status',
       },
       {
-        src: '/work/sga/ficha.png',
+        light: '/work/sga/ficha.png',
+        dark: '/work/sga/ficha-dark.png',
         alt: 'Ficha de alumno con historial, porcentaje y riesgo académico',
         caption: 'Ficha de alumno con historial, porcentaje y riesgo',
+        captionEn: 'Student record with history, percentage and risk',
       },
       {
-        src: '/work/sga/reportes.png',
+        light: '/work/sga/reportes.png',
+        dark: '/work/sga/reportes-dark.png',
         alt: 'Reportes, actas PDF y flujo de cierre académico',
         caption: 'Reportes, actas PDF y cierre académico',
+        captionEn: 'Reports, PDF records and academic close',
       },
       {
-        src: '/work/sga/auditoria.png',
+        light: '/work/sga/auditoria.png',
+        dark: '/work/sga/auditoria-dark.png',
         alt: 'Auditoría con actor, resultado y trazabilidad',
         caption: 'Auditoría con actor, resultado y trazabilidad',
+        captionEn: 'Audit with actor, result and traceability',
       },
     ],
     demo: 'https://gestion-asistencias-implementacion.vercel.app/login',

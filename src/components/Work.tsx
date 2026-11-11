@@ -2,6 +2,7 @@ import SectionHeader from './SectionHeader'
 import { projects, type Project } from '../data/projects'
 import { useI18n } from '../i18n'
 import { RevealImage, Reveal, StaggerLi, StaggerList } from './motion'
+import ProjectCarousel from './ProjectCarousel'
 
 type FeaturedProject = Project & { image: string }
 
@@ -65,23 +66,27 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
   return (
     <article className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 md:mt-14">
       <Reveal className="col-span-12 lg:col-span-8">
-        <figure>
-          <div className="border border-ink bg-paper-deep">
-            <RevealImage
-              src={project.image}
-              alt={copy.caption ?? copy.title}
-              width={project.imageWidth ?? 1440}
-              height={project.imageHeight ?? 900}
-              className="aspect-[16/10]"
-            />
-          </div>
-          <figcaption className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
-            <span>
-              {t.work.fig} {pad(seq)} — {copy.caption}
-            </span>
-            <span className="tabular-nums text-oxide">03.{pad(seq)}</span>
-          </figcaption>
-        </figure>
+        {project.shots && project.shots.length > 0 ? (
+          <ProjectCarousel project={project} />
+        ) : (
+          <figure>
+            <div className="border border-ink bg-paper-deep">
+              <RevealImage
+                src={project.image}
+                alt={copy.caption ?? copy.title}
+                width={project.imageWidth ?? 1440}
+                height={project.imageHeight ?? 900}
+                className="aspect-[16/10]"
+              />
+            </div>
+            <figcaption className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
+              <span>
+                {t.work.fig} {pad(seq)} — {copy.caption}
+              </span>
+              <span className="tabular-nums text-oxide">03.{pad(seq)}</span>
+            </figcaption>
+          </figure>
+        )}
       </Reveal>
 
       <Reveal className="col-span-12 lg:col-span-4" delay={0.15}>
@@ -109,31 +114,6 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
 
         <ProjectLinks project={project} title={copy.title} />
       </Reveal>
-
-      {project.gallery && project.gallery.length > 0 && (
-        <Reveal className="col-span-12" delay={0.1}>
-          <div className="mt-2 grid grid-cols-1 gap-px border border-ink bg-ink sm:grid-cols-2">
-            {project.gallery.map((shot, index) => (
-              <figure key={shot.src} className="bg-paper">
-                <img
-                  src={shot.src}
-                  alt={shot.alt}
-                  width={720}
-                  height={450}
-                  loading="lazy"
-                  className="block aspect-[16/10] w-full object-cover"
-                />
-                <figcaption className="border-t border-ink/15 px-2 py-2 font-mono text-[8px] uppercase leading-relaxed tracking-[0.1em] text-ink-soft">
-                  <span className="block text-oxide">
-                    {t.work.fig} {pad(seq)}.{index + 2}
-                  </span>
-                  <span className="mt-0.5 block">{shot.caption}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </Reveal>
-      )}
     </article>
   )
 }
