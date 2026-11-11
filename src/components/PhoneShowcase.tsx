@@ -26,17 +26,17 @@ export default function PhoneShowcase({ project }: { project: Project }) {
         <span>390 × 844</span>
       </div>
 
-      <div className="relative hidden items-end justify-center gap-2 p-6 xl:flex xl:p-8">
+      <div className="relative hidden items-end justify-center gap-3.5 p-6 xl:flex xl:p-8">
         {shots.map((shot, index) => {
           const isActive = index === active
           return (
             <div
               key={shot.src}
-              className="flex shrink-0 flex-col items-center transition-[width] duration-500 ease-out motion-reduce:transition-none"
-              style={{ width: isActive ? 200 : 110 }}
+              className="relative flex w-[116px] shrink-0 flex-col items-center"
+              style={{ zIndex: isActive ? 20 : 10 }}
             >
               <div
-                className={`origin-bottom transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${
+                className={`origin-bottom transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
                   isActive ? 'scale-100 opacity-100' : 'scale-[0.55] opacity-65'
                 }`}
               >
