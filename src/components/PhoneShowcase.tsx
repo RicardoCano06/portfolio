@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useI18n } from '../i18n'
 import type { PhoneShot, Project } from '../data/projects'
 
@@ -7,9 +8,13 @@ const GLOW =
 export default function PhoneShowcase({ project }: { project: Project }) {
   const { lang } = useI18n()
   const shots = project.phoneShots ?? []
+  const [active, setActive] = useState(0)
   if (!shots.length) return null
 
-  const [inicio, entrenar, progreso] = shots
+  const desktopShots = shots.slice(0, 3)
+  const selected = desktopShots[active] ?? desktopShots[0]
+  const others = desktopShots.filter((_, index) => index !== active)
+  const label = (shot: PhoneShot) => (lang === 'es' ? shot.caption : shot.captionEn)
 
   return (
     <div className="relative overflow-hidden border border-ink bg-paper">
@@ -25,11 +30,31 @@ export default function PhoneShowcase({ project }: { project: Project }) {
       </div>
 
       <div className="relative hidden items-end justify-center gap-5 p-6 lg:flex lg:p-8">
-        <PhoneFrame shot={inicio} width={240} />
+        <PhoneFrame shot={selected} width={240} />
         <div className="grid grid-cols-2 items-end gap-3">
-          <PhoneFrame shot={entrenar} width={150} />
-          <PhoneFrame shot={progreso} width={150} />
+          {others.map((shot) => (
+            <PhoneFrame key={shot.src} shot={shot} width={150} />
+          ))}
         </div>
+      </div>
+
+      <div className="relative hidden items-center justify-center gap-2 pb-6 font-mono text-[8px] uppercase tracking-[0.14em] lg:flex">
+        <span className="text-ink-soft">{lang === 'es' ? 'Pantalla' : 'Screen'}:</span>
+        {desktopShots.map((shot, index) => (
+          <button
+            key={shot.src}
+            type="button"
+            onClick={() => setActive(index)}
+            aria-pressed={index === active}
+            className={
+              index === active
+                ? 'text-oxide underline underline-offset-4'
+                : 'text-ink-soft transition-colors hover:text-ink'
+            }
+          >
+            {label(shot)}
+          </button>
+        ))}
       </div>
 
       <div className="relative lg:hidden">
