@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useI18n } from '../i18n'
 import type { PhoneShot, Project } from '../data/projects'
 
@@ -9,29 +9,83 @@ export default function PhoneShowcase({ project }: { project: Project }) {
   const { lang } = useI18n()
   const shots = project.phoneShots ?? []
   const [active, setActive] = useState(0)
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const node = rootRef.current
+    if (!node) return
+
+    const lightSources = shots
+      .map((shot) => shot.lightSrc)
+      .filter((src): src is string => Boolean(src))
+    if (!lightSources.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        observer.disconnect()
+        for (const src of lightSources) {
+          const image = new Image()
+          image.decoding = 'async'
+          image.src = src
+        }
+      },
+      { rootMargin: '600px 0px' },
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [shots])
+
   if (!shots.length) return null
 
   const label = (shot: PhoneShot) => (lang === 'es' ? shot.caption : shot.captionEn)
+  const themed = shots.map((shot) => ({
+    ...shot,
+    src: theme === 'light' ? shot.lightSrc ?? shot.src : shot.src,
+    alt: theme === 'light' ? shot.lightAlt ?? shot.alt : shot.alt,
+  }))
+  const toggleLabel =
+    lang === 'es'
+      ? theme === 'dark'
+        ? 'Ver capturas en tema claro'
+        : 'Ver capturas en tema oscuro'
+      : theme === 'dark'
+        ? 'View screenshots in light theme'
+        : 'View screenshots in dark theme'
 
   return (
-    <div className="relative overflow-hidden border border-ink bg-paper">
+    <div ref={rootRef} className="relative overflow-hidden border border-ink bg-paper">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{ backgroundImage: GLOW }}
       />
 
-      <div className="relative flex items-center justify-between px-4 pt-4 font-mono text-[8px] uppercase tracking-[0.16em] text-ink-soft sm:px-6">
+      <div className="relative flex items-center justify-between gap-3 px-4 pt-4 font-mono text-[8px] uppercase tracking-[0.16em] text-ink-soft sm:px-6">
         <span>VEKT / PWA</span>
-        <span>390 × 844</span>
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline">390 × 844</span>
+          <button
+            type="button"
+            onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+            aria-label={toggleLabel}
+            className="border-b border-ink pb-0.5 tracking-[0.12em] transition-colors hover:border-oxide hover:text-oxide"
+          >
+            {theme === 'dark'
+              ? `☀ ${lang === 'es' ? 'Claro' : 'Light'}`
+              : `☾ ${lang === 'es' ? 'Oscuro' : 'Dark'}`}
+          </button>
+        </div>
       </div>
 
       <div className="relative hidden items-end justify-center gap-3.5 p-6 xl:flex xl:p-8">
-        {shots.map((shot, index) => {
+        {themed.map((shot, index) => {
           const isActive = index === active
           return (
             <div
-              key={shot.src}
+              key={shot.caption}
               className="relative flex w-[116px] shrink-0 flex-col items-center"
               style={{ zIndex: isActive ? 20 : 10 }}
             >
@@ -43,6 +97,7 @@ export default function PhoneShowcase({ project }: { project: Project }) {
                 <PhoneFrame
                   shot={shot}
                   width={200}
+                  theme={theme}
                   active={isActive}
                   onSelect={() => setActive(index)}
                   showCaption={false}
@@ -69,9 +124,9 @@ export default function PhoneShowcase({ project }: { project: Project }) {
           aria-label={lang === 'es' ? 'Capturas de Vekt' : 'Vekt screenshots'}
           className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 pt-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {shots.map((shot) => (
-            <div key={shot.src} className="shrink-0 snap-center">
-              <PhoneFrame shot={shot} width={200} />
+          {themed.map((shot) => (
+            <div key={shot.caption} className="shrink-0 snap-center">
+              <PhoneFrame shot={shot} width={200} theme={theme} />
             </div>
           ))}
         </div>
@@ -89,17 +144,20 @@ export default function PhoneShowcase({ project }: { project: Project }) {
 function PhoneFrame({
   shot,
   width,
+  theme = 'dark',
   onSelect,
   active = false,
   showCaption = true,
 }: {
   shot: PhoneShot
   width: number
+  theme?: 'dark' | 'light'
   onSelect?: () => void
   active?: boolean
   showCaption?: boolean
 }) {
   const { lang } = useI18n()
+  const light = theme === 'light'
   const bezel = Math.round(width * 0.032)
   const radius = Math.round(width * 0.13)
   const screenRadius = Math.round(width * 0.105)
@@ -158,11 +216,13 @@ function PhoneFrame({
         />
 
         <div
-          className="relative overflow-hidden bg-[#0a0910]"
+          className={`relative overflow-hidden ${light ? 'bg-[#f7f5fb]' : 'bg-[#0a0910]'}`}
           style={{ borderRadius: screenRadius }}
         >
           <div
-            className="relative flex items-center justify-between px-3 text-white"
+            className={`relative flex items-center justify-between px-3 ${
+              light ? 'text-[#140f1d]' : 'text-white'
+            }`}
             style={{ height: statusHeight }}
           >
             <span style={{ fontSize: timeSize, fontWeight: 600 }}>9:41</span>
@@ -181,16 +241,24 @@ function PhoneFrame({
                 {[1, 2, 3, 4].map((bar) => (
                   <i
                     key={bar}
-                    className="block w-[2px] rounded-sm bg-white/90"
+                    className={`block w-[2px] rounded-sm ${
+                      light ? 'bg-[#140f1d]/80' : 'bg-white/90'
+                    }`}
                     style={{ height: Math.max(2, (timeSize - 3) * (bar / 3)) }}
                   />
                 ))}
               </span>
               <span
-                className="relative block rounded-[2px] border border-white/70"
+                className={`relative block rounded-[2px] border ${
+                  light ? 'border-[#140f1d]/60' : 'border-white/70'
+                }`}
                 style={{ width: timeSize * 1.7, height: timeSize * 0.8 }}
               >
-                <i className="absolute inset-[1px] right-[3px] rounded-[1px] bg-white/90" />
+                <i
+                  className={`absolute inset-[1px] right-[3px] rounded-[1px] ${
+                    light ? 'bg-[#140f1d]/80' : 'bg-white/90'
+                  }`}
+                />
               </span>
             </span>
           </div>
@@ -206,7 +274,9 @@ function PhoneFrame({
 
           <span
             aria-hidden="true"
-            className="absolute bottom-[6%] left-1/2 h-[3px] w-[32%] -translate-x-1/2 rounded-full bg-white/70"
+            className={`absolute bottom-[6%] left-1/2 h-[3px] w-[32%] -translate-x-1/2 rounded-full ${
+              light ? 'bg-[#140f1d]/40' : 'bg-white/70'
+            }`}
           />
         </div>
 

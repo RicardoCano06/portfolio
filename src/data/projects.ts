@@ -3,6 +3,8 @@
 export interface PhoneShot {
   src: string
   alt: string
+  lightSrc?: string
+  lightAlt?: string
   caption: string
   captionEn: string
 }
@@ -140,32 +142,42 @@ export const projects: Project[] = [
     github: 'https://github.com/RicardoCano06/Vekt',
     phoneShots: [
       {
-        src: '/work/vekt/inicio.png',
+        src: '/work/vekt/inicio.webp',
         alt: 'Inicio de Vekt con la sesión en curso y el volumen semanal por grupo muscular',
+        lightSrc: '/work/vekt/light/inicio.webp',
+        lightAlt: 'Inicio de Vekt en tema claro con la sesión en curso y el volumen semanal por grupo muscular',
         caption: 'Inicio',
         captionEn: 'Home',
       },
       {
-        src: '/work/vekt/entrenar.png',
+        src: '/work/vekt/entrenar.webp',
         alt: 'Sesión de entrenamiento de Vekt con una serie completada y el plan del día',
+        lightSrc: '/work/vekt/light/entrenar.webp',
+        lightAlt: 'Sesión de entrenamiento de Vekt en tema claro con una serie completada y el plan del día',
         caption: 'Entrenar',
         captionEn: 'Train',
       },
       {
-        src: '/work/vekt/progreso.png',
+        src: '/work/vekt/progreso.webp',
         alt: 'Progreso de Vekt con racha, mapa de constancia y volumen semanal',
+        lightSrc: '/work/vekt/light/progreso.webp',
+        lightAlt: 'Progreso de Vekt en tema claro con racha, mapa de constancia y volumen semanal',
         caption: 'Progreso',
         captionEn: 'Progress',
       },
       {
-        src: '/work/vekt/rutinas.png',
+        src: '/work/vekt/rutinas.webp',
         alt: 'Rutina Pierna de Vekt con días, ejercicios y series',
+        lightSrc: '/work/vekt/light/rutinas.webp',
+        lightAlt: 'Rutina Pierna de Vekt en tema claro con días, ejercicios y series',
         caption: 'Rutinas',
         captionEn: 'Routines',
       },
       {
-        src: '/work/vekt/historial.png',
+        src: '/work/vekt/historial.webp',
         alt: 'Historial de Vekt con las sesiones registradas',
+        lightSrc: '/work/vekt/light/historial.webp',
+        lightAlt: 'Historial de Vekt en tema claro con las sesiones registradas',
         caption: 'Historial',
         captionEn: 'History',
       },
