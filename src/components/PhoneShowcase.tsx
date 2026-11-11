@@ -11,7 +11,6 @@ export default function PhoneShowcase({ project }: { project: Project }) {
   const [active, setActive] = useState(0)
   if (!shots.length) return null
 
-  const desktopShots = shots.slice(0, 3)
   const label = (shot: PhoneShot) => (lang === 'es' ? shot.caption : shot.captionEn)
 
   return (
@@ -27,40 +26,44 @@ export default function PhoneShowcase({ project }: { project: Project }) {
         <span>390 × 844</span>
       </div>
 
-      <div className="relative hidden items-end justify-center gap-4 p-6 lg:flex lg:p-8">
-        {desktopShots.map((shot, index) => (
-          <div key={shot.src} className="flex w-[230px] shrink-0 flex-col items-center">
+      <div className="relative hidden items-end justify-center gap-2 p-6 xl:flex xl:p-8">
+        {shots.map((shot, index) => {
+          const isActive = index === active
+          return (
             <div
-              className={`origin-bottom transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${
-                index === active ? 'scale-100 opacity-100' : 'scale-[0.64] opacity-70'
-              }`}
+              key={shot.src}
+              className="flex shrink-0 flex-col items-center transition-[width] duration-500 ease-out motion-reduce:transition-none"
+              style={{ width: isActive ? 200 : 110 }}
             >
-              <PhoneFrame shot={shot} width={230} />
+              <div
+                className={`origin-bottom transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${
+                  isActive ? 'scale-100 opacity-100' : 'scale-[0.55] opacity-65'
+                }`}
+              >
+                <PhoneFrame
+                  shot={shot}
+                  width={200}
+                  active={isActive}
+                  onSelect={() => setActive(index)}
+                  showCaption={false}
+                />
+              </div>
+              <span
+                aria-hidden="true"
+                className={`mt-2 whitespace-nowrap font-mono text-[8px] uppercase tracking-[0.14em] transition-colors ${
+                  isActive
+                    ? 'text-oxide underline underline-offset-4'
+                    : 'text-ink-soft'
+                }`}
+              >
+                {label(shot)}
+              </span>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      <div className="relative hidden items-center justify-center gap-2 pb-6 font-mono text-[8px] uppercase tracking-[0.14em] lg:flex">
-        <span className="text-ink-soft">{lang === 'es' ? 'Pantalla' : 'Screen'}:</span>
-        {desktopShots.map((shot, index) => (
-          <button
-            key={shot.src}
-            type="button"
-            onClick={() => setActive(index)}
-            aria-pressed={index === active}
-            className={
-              index === active
-                ? 'text-oxide underline underline-offset-4'
-                : 'text-ink-soft transition-colors hover:text-ink'
-            }
-          >
-            {label(shot)}
-          </button>
-        ))}
-      </div>
-
-      <div className="relative lg:hidden">
+      <div className="relative xl:hidden">
         <div
           role="region"
           aria-label={lang === 'es' ? 'Capturas de Vekt' : 'Vekt screenshots'}
@@ -74,7 +77,7 @@ export default function PhoneShowcase({ project }: { project: Project }) {
         </div>
       </div>
 
-      <p className="relative px-4 pb-4 font-mono text-[8px] uppercase tracking-[0.14em] text-ink-soft sm:px-6 sm:pb-6 lg:hidden">
+      <p className="relative px-4 pb-4 font-mono text-[8px] uppercase tracking-[0.14em] text-ink-soft sm:px-6 sm:pb-6 xl:hidden">
         {lang === 'es'
           ? 'Deslizá para ver las 5 pantallas.'
           : 'Swipe to see all 5 screens.'}
@@ -83,7 +86,19 @@ export default function PhoneShowcase({ project }: { project: Project }) {
   )
 }
 
-function PhoneFrame({ shot, width }: { shot: PhoneShot; width: number }) {
+function PhoneFrame({
+  shot,
+  width,
+  onSelect,
+  active = false,
+  showCaption = true,
+}: {
+  shot: PhoneShot
+  width: number
+  onSelect?: () => void
+  active?: boolean
+  showCaption?: boolean
+}) {
   const { lang } = useI18n()
   const bezel = Math.round(width * 0.032)
   const radius = Math.round(width * 0.13)
@@ -194,11 +209,28 @@ function PhoneFrame({ shot, width }: { shot: PhoneShot; width: number }) {
             className="absolute bottom-[6%] left-1/2 h-[3px] w-[32%] -translate-x-1/2 rounded-full bg-white/70"
           />
         </div>
+
+        {onSelect && (
+          <button
+            type="button"
+            onClick={onSelect}
+            aria-pressed={active}
+            aria-label={
+              lang === 'es'
+                ? `Ver la pantalla ${caption}`
+                : `View the ${caption} screen`
+            }
+            className="absolute inset-0 z-10 cursor-pointer outline-none transition-shadow hover:ring-2 hover:ring-[#a78bfa]/70 focus-visible:ring-2 focus-visible:ring-[#a78bfa] focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            style={{ borderRadius: radius }}
+          />
+        )}
       </div>
 
-      <figcaption className="mt-2 font-mono text-[8px] uppercase tracking-[0.14em] text-ink-soft">
-        {caption}
-      </figcaption>
+      {showCaption && (
+        <figcaption className="mt-2 font-mono text-[8px] uppercase tracking-[0.14em] text-ink-soft">
+          {caption}
+        </figcaption>
+      )}
     </figure>
   )
 }
