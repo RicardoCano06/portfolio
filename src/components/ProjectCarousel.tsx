@@ -58,28 +58,10 @@ export default function ProjectCarousel({ project }: { project: Project }) {
       className="border border-ink bg-paper"
     >
       <div className="flex items-center justify-between gap-4 border-b border-ink/15 px-3 py-2">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            aria-label={ui.prev}
-            className="px-1 font-mono text-sm transition-colors hover:text-oxide"
-          >
-            ←
-          </button>
-          <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
-            {ui.shot} {String(index + 1).padStart(2, '0')} /{' '}
-            {String(shots.length).padStart(2, '0')}
-          </span>
-          <button
-            type="button"
-            onClick={() => go(1)}
-            aria-label={ui.next}
-            className="px-1 font-mono text-sm transition-colors hover:text-oxide"
-          >
-            →
-          </button>
-        </div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
+          {ui.shot} {String(index + 1).padStart(2, '0')} /{' '}
+          {String(shots.length).padStart(2, '0')}
+        </span>
         <button
           type="button"
           onClick={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}
@@ -107,13 +89,29 @@ export default function ProjectCarousel({ project }: { project: Project }) {
         </AnimatePresence>
       </div>
 
-      <div className="flex items-center gap-3 border-t border-ink/15 px-3 py-2">
+      <div className="flex items-center gap-2 border-t border-ink/15 px-2 py-1">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          aria-label={ui.prev}
+          className="flex h-10 w-10 shrink-0 items-center justify-center font-mono text-base transition-colors hover:text-oxide"
+        >
+          ←
+        </button>
         <p
           aria-live="polite"
           className="min-w-0 flex-1 text-center font-mono text-[9px] uppercase tracking-[0.1em]"
         >
           {caption}
         </p>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          aria-label={ui.next}
+          className="flex h-10 w-10 shrink-0 items-center justify-center font-mono text-base transition-colors hover:text-oxide"
+        >
+          →
+        </button>
       </div>
 
       <div className="flex items-center gap-1.5 border-t border-ink/10 px-3 py-2">
