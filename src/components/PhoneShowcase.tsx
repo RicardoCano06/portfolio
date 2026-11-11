@@ -12,8 +12,6 @@ export default function PhoneShowcase({ project }: { project: Project }) {
   if (!shots.length) return null
 
   const desktopShots = shots.slice(0, 3)
-  const selected = desktopShots[active] ?? desktopShots[0]
-  const others = desktopShots.filter((_, index) => index !== active)
   const label = (shot: PhoneShot) => (lang === 'es' ? shot.caption : shot.captionEn)
 
   return (
@@ -29,13 +27,18 @@ export default function PhoneShowcase({ project }: { project: Project }) {
         <span>390 × 844</span>
       </div>
 
-      <div className="relative hidden items-end justify-center gap-5 p-6 lg:flex lg:p-8">
-        <PhoneFrame shot={selected} width={240} />
-        <div className="grid grid-cols-2 items-end gap-3">
-          {others.map((shot) => (
-            <PhoneFrame key={shot.src} shot={shot} width={150} />
-          ))}
-        </div>
+      <div className="relative hidden items-end justify-center gap-4 p-6 lg:flex lg:p-8">
+        {desktopShots.map((shot, index) => (
+          <div key={shot.src} className="flex w-[230px] shrink-0 flex-col items-center">
+            <div
+              className={`origin-bottom transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${
+                index === active ? 'scale-100 opacity-100' : 'scale-[0.64] opacity-70'
+              }`}
+            >
+              <PhoneFrame shot={shot} width={230} />
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="relative hidden items-center justify-center gap-2 pb-6 font-mono text-[8px] uppercase tracking-[0.14em] lg:flex">
