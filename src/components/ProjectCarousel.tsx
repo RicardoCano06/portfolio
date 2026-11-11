@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
 import { useI18n } from '../i18n'
 import type { Project } from '../data/projects'
@@ -11,6 +11,52 @@ export default function ProjectCarousel({ project }: { project: Project }) {
   const shots = project.shots ?? []
   const [index, setIndex] = useState(0)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const node = rootRef.current
+    if (!node) return
+
+    let cancelled = false
+    let darkHandle: number | null = null
+
+    const preload = (sources: string[]) => {
+      for (const source of sources) {
+        if (!source) continue
+        const image = new Image()
+        image.decoding = 'async'
+        image.src = source
+      }
+    }
+
+    const lightSources = shots.map((shot) => shot.light).filter(Boolean)
+    const darkSources = shots.map((shot) => shot.dark).filter(Boolean)
+
+    const load = () => {
+      if (cancelled) return
+      preload(lightSources)
+      darkHandle = window.setTimeout(() => {
+        if (!cancelled) preload(darkSources)
+      }, 1200)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        observer.disconnect()
+        load()
+      },
+      { rootMargin: '600px 0px' },
+    )
+
+    observer.observe(node)
+
+    return () => {
+      cancelled = true
+      observer.disconnect()
+      if (darkHandle !== null) window.clearTimeout(darkHandle)
+    }
+  }, [shots])
 
   if (!shots.length) return null
 
@@ -51,6 +97,7 @@ export default function ProjectCarousel({ project }: { project: Project }) {
 
   return (
     <div
+      ref={rootRef}
       role="group"
       aria-label={ui.group}
       tabIndex={0}
@@ -72,19 +119,22 @@ export default function ProjectCarousel({ project }: { project: Project }) {
         </button>
       </div>
 
-      <div className="relative overflow-hidden bg-paper-deep">
-        <AnimatePresence mode="wait" initial={false}>
+      <div className="relative aspect-[16/10] overflow-hidden bg-paper-deep">
+        <AnimatePresence initial={false}>
           <motion.img
             key={`${index}-${theme}`}
             src={src}
             alt={shot.alt}
             width={1440}
             height={900}
-            initial={{ opacity: 0, x: 14 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -14 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            className="block aspect-[16/10] w-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: EASE }}
+            decoding="async"
+            loading="eager"
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         </AnimatePresence>
       </div>
