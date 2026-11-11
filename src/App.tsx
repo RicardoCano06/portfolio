@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/react'
 import { MotionConfig } from 'framer-motion'
 import { I18nProvider, useI18n } from './i18n'
+import AmbientGeometry from './components/AmbientGeometry'
 import Masthead from './components/Masthead'
 import Cover from './components/Cover'
 import Marquee from './components/Marquee'
@@ -26,26 +27,31 @@ function Shell() {
 
   return (
     <div id="top" className="min-h-dvh overflow-x-clip bg-paper text-ink">
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[10px] focus:uppercase focus:tracking-[0.16em] focus:text-paper"
-      >
-        {t.a11y.skipToContent}
-      </a>
+      <AmbientGeometry />
 
-      <Masthead />
+      <div className="relative z-10">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[10px] focus:uppercase focus:tracking-[0.16em] focus:text-paper"
+        >
+          {t.a11y.skipToContent}
+        </a>
 
-      <main id="main" tabIndex={-1}>
-        <Cover />
-        <Marquee />
-        <Profile />
-        <Stack />
-        <Work />
-        <Ledger />
-        <Contact />
-      </main>
+        <Masthead />
 
-      <Colophon />
+        <main id="main" tabIndex={-1}>
+          <Cover />
+          <Marquee />
+          <Profile />
+          <Stack />
+          <Work />
+          <Ledger />
+          <Contact />
+        </main>
+
+        <Colophon />
+      </div>
+
       <Analytics />
     </div>
   )
