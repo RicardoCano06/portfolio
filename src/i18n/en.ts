@@ -59,7 +59,7 @@ export const en: Dictionary = {
   },
   work: {
     title: 'Work',
-    intro: 'Three systems built end to end. Screenshot of the deployed commercial site.',
+    intro: 'Three systems built end to end. SGA-UNG, the main project, with screenshots of its key screens.',
     role: 'Role',
     stack: 'Stack',
     status: 'Status',

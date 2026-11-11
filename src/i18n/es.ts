@@ -57,7 +57,7 @@ export const es = {
   },
   work: {
     title: 'Proyectos',
-    intro: 'Tres sistemas construidos de punta a punta. Captura del sitio comercial desplegado.',
+    intro: 'Tres sistemas construidos de punta a punta. SGA-UNG, el proyecto principal, con capturas de sus pantallas clave.',
     role: 'Rol',
     stack: 'Stack',
     status: 'Estado',

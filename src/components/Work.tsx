@@ -77,7 +77,7 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
           </div>
           <figcaption className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">
             <span>
-              {t.work.fig}. {pad(seq)} — {copy.caption}
+              {t.work.fig} {pad(seq)} — {copy.caption}
             </span>
             <span className="tabular-nums text-oxide">03.{pad(seq)}</span>
           </figcaption>
@@ -104,11 +104,36 @@ function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
 
         <dl className="mt-6 border-t border-ink/15">
           <MetaRow label={t.work.stack} value={project.tech.join(' · ')} />
-          <MetaRow label={t.work.status} value={t.work.statusValue} />
+          <MetaRow label={t.work.status} value={project.status?.[lang] ?? t.work.statusValue} />
         </dl>
 
         <ProjectLinks project={project} title={copy.title} />
       </Reveal>
+
+      {project.gallery && project.gallery.length > 0 && (
+        <Reveal className="col-span-12" delay={0.1}>
+          <div className="mt-2 grid grid-cols-1 gap-px border border-ink bg-ink sm:grid-cols-2">
+            {project.gallery.map((shot, index) => (
+              <figure key={shot.src} className="bg-paper">
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  width={720}
+                  height={450}
+                  loading="lazy"
+                  className="block aspect-[16/10] w-full object-cover"
+                />
+                <figcaption className="border-t border-ink/15 px-2 py-2 font-mono text-[8px] uppercase leading-relaxed tracking-[0.1em] text-ink-soft">
+                  <span className="block text-oxide">
+                    {t.work.fig} {pad(seq)}.{index + 2}
+                  </span>
+                  <span className="mt-0.5 block">{shot.caption}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </Reveal>
+      )}
     </article>
   )
 }

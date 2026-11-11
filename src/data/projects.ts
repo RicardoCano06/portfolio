@@ -1,4 +1,10 @@
-﻿export type ProjectId = 'palmares' | 'vekt' | 'asistencia'
+﻿export type ProjectId = 'sga' | 'palmares' | 'vekt'
+
+export interface ProjectImage {
+  src: string
+  alt: string
+  caption: string
+}
 
 export interface ProjectCopy {
   title: string
@@ -13,14 +19,73 @@ export interface Project {
   image?: string
   imageWidth?: number
   imageHeight?: number
+  gallery?: ProjectImage[]
   demo?: string
   github?: string
   tech: string[]
+  status?: { es: string; en: string }
   es: ProjectCopy
   en: ProjectCopy
 }
 
 export const projects: Project[] = [
+  {
+    id: 'sga',
+    image: '/work/sga/panel.png',
+    imageWidth: 1440,
+    imageHeight: 900,
+    gallery: [
+      {
+        src: '/work/sga/asistencias.png',
+        alt: 'Planilla de asistencia con marcado masivo y estados por alumno',
+        caption: 'Planilla por curso con marcado masivo y estados por alumno',
+      },
+      {
+        src: '/work/sga/ficha.png',
+        alt: 'Ficha de alumno con historial, porcentaje y riesgo académico',
+        caption: 'Ficha de alumno con historial, porcentaje y riesgo',
+      },
+      {
+        src: '/work/sga/reportes.png',
+        alt: 'Reportes, actas PDF y flujo de cierre académico',
+        caption: 'Reportes, actas PDF y cierre académico',
+      },
+      {
+        src: '/work/sga/auditoria.png',
+        alt: 'Auditoría con actor, resultado y trazabilidad',
+        caption: 'Auditoría con actor, resultado y trazabilidad',
+      },
+    ],
+    demo: 'https://gestion-asistencias-implementacion.vercel.app/login',
+    tech: [
+      'React 19',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'Node.js 22',
+      'Express 5',
+      'PostgreSQL',
+      'Supabase',
+      'JWT',
+      'Zod',
+      'Recharts',
+    ],
+    status: { es: 'Staging · dataset demo', en: 'Staging · demo dataset' },
+    es: {
+      title: 'SGA-UNG',
+      subtitle: 'Sistema de Gestión de Asistencia Académica',
+      role: 'Proyecto de tesis · Implementación',
+      desc: 'Plataforma académica para la UNG: 4 facultades, 14 carreras y 6.150 matrículas. Planilla de asistencia por curso, justificaciones con PDF, recálculo automático en PostgreSQL, actas legales y auditoría. 349 tests de backend y 8 specs E2E.',
+      caption: 'Panel de control con métricas, riesgo académico y alertas',
+    },
+    en: {
+      title: 'SGA-UNG',
+      subtitle: 'Academic Attendance Management System',
+      role: 'Thesis project · Implementation',
+      desc: 'Academic platform for UNG: 4 faculties, 14 programmes and 6,150 enrolments. Course attendance sheets, PDF justifications, automatic recalculation in PostgreSQL, legal reports and auditing. 349 backend tests and 8 E2E specs.',
+      caption: 'Dashboard with metrics, academic risk and alerts',
+    },
+  },
   {
     id: 'palmares',
     image: '/work/palmares.jpg',
@@ -60,25 +125,6 @@ export const projects: Project[] = [
       subtitle: 'Progressive overload training tracker',
       role: 'Personal project',
       desc: 'Offline-first SPA with local persistence, ES/EN internationalization and a sandbox environment isolated from the production database. Tracks routines, sets and weekly volume.',
-    },
-  },
-  {
-    id: 'asistencia',
-    demo: 'https://asistenciaung.dev',
-    github:
-      'https://github.com/RicardoCano06/Sistema-de-Gestion-de-Asistencia-Academica',
-    tech: ['React', 'TypeScript', 'Express', 'PostgreSQL', 'Supabase', 'Zod'],
-    es: {
-      title: 'Sistema de Gestión de Asistencia Académica',
-      subtitle: 'Control y seguimiento de asistencia',
-      role: 'Proyecto de tesis',
-      desc: 'Sistema de tesis para la Universidad Nihon Gakko. API REST en Node.js con validación de esquemas Zod y PostgreSQL diseñado para integridad referencial y consistencia transaccional.',
-    },
-    en: {
-      title: 'Academic Attendance Management System',
-      subtitle: 'Attendance control and tracking',
-      role: 'Thesis project',
-      desc: 'Thesis system for Universidad Nihon Gakko. Node.js REST API with Zod schema validation and PostgreSQL designed for referential integrity and transactional consistency.',
     },
   },
 ]
