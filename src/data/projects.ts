@@ -1,5 +1,12 @@
 ﻿export type ProjectId = 'sga' | 'palmares' | 'vekt'
 
+export interface PhoneShot {
+  src: string
+  alt: string
+  caption: string
+  captionEn: string
+}
+
 export interface ProjectShot {
   light: string
   dark: string
@@ -22,6 +29,7 @@ export interface Project {
   imageWidth?: number
   imageHeight?: number
   shots?: ProjectShot[]
+  phoneShots?: PhoneShot[]
   demo?: string
   github?: string
   tech: string[]
@@ -130,18 +138,60 @@ export const projects: Project[] = [
     id: 'vekt',
     demo: 'https://vekt.ricardocanoc06.workers.dev/',
     github: 'https://github.com/RicardoCano06/Vekt',
-    tech: ['React 19', 'TypeScript', 'Vite', 'Supabase', 'Tailwind CSS'],
+    phoneShots: [
+      {
+        src: '/work/vekt/inicio.png',
+        alt: 'Inicio de Vekt con la sesión en curso y el volumen semanal por grupo muscular',
+        caption: 'Inicio',
+        captionEn: 'Home',
+      },
+      {
+        src: '/work/vekt/entrenar.png',
+        alt: 'Sesión de entrenamiento de Vekt con una serie completada y el plan del día',
+        caption: 'Entrenar',
+        captionEn: 'Train',
+      },
+      {
+        src: '/work/vekt/progreso.png',
+        alt: 'Progreso de Vekt con racha, mapa de constancia y volumen semanal',
+        caption: 'Progreso',
+        captionEn: 'Progress',
+      },
+      {
+        src: '/work/vekt/rutinas.png',
+        alt: 'Rutina Pierna de Vekt con días, ejercicios y series',
+        caption: 'Rutinas',
+        captionEn: 'Routines',
+      },
+      {
+        src: '/work/vekt/historial.png',
+        alt: 'Historial de Vekt con las sesiones registradas',
+        caption: 'Historial',
+        captionEn: 'History',
+      },
+    ],
+    tech: [
+      'React 19',
+      'TypeScript',
+      'Vite',
+      'Supabase',
+      'Tailwind CSS',
+      'React Router',
+      'PWA',
+      'IndexedDB',
+    ],
+    status: { es: 'En producción', en: 'Live' },
     es: {
       title: 'Vekt',
       subtitle: 'Registro de entrenamiento con sobrecarga progresiva',
-      role: 'Proyecto personal',
-      desc: 'SPA offline-first con persistencia local, internacionalización ES/EN y un entorno sandbox aislado de la base de datos de producción. Registra rutinas, series y volumen semanal.',
+      role: 'Proyecto personal · Product design + frontend',
+      desc: 'PWA offline-first para registrar entrenamientos de fuerza: rutinas, series, RPE, volumen semanal, PRs y peso corporal, en ES/EN. 867 ejercicios bilingües y 100/100/100 en Lighthouse mobile.',
     },
     en: {
       title: 'Vekt',
       subtitle: 'Progressive overload training tracker',
-      role: 'Personal project',
-      desc: 'Offline-first SPA with local persistence, ES/EN internationalization and a sandbox environment isolated from the production database. Tracks routines, sets and weekly volume.',
+      role: 'Personal project · Product design + frontend',
+      desc: 'Offline-first PWA for strength training: routines, sets, RPE, weekly volume, PRs and body weight, in ES/EN. 867 bilingual exercises and 100/100/100 on mobile Lighthouse.',
     },
   },
 ]

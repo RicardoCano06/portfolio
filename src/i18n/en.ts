@@ -59,7 +59,7 @@ export const en: Dictionary = {
   },
   work: {
     title: 'Work',
-    intro: 'Three systems built end to end. SGA-UNG, the main project, with screenshots of its key screens.',
+    intro: 'Three systems built end to end: SGA-UNG, Palmares and Vekt.',
     role: 'Role',
     stack: 'Stack',
     status: 'Status',

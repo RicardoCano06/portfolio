@@ -3,11 +3,10 @@ import { projects, type Project } from '../data/projects'
 import { useI18n } from '../i18n'
 import { RevealImage, Reveal, StaggerLi, StaggerList } from './motion'
 import ProjectCarousel from './ProjectCarousel'
+import PhoneShowcase from './PhoneShowcase'
 
-type FeaturedProject = Project & { image: string }
-
-function isFeatured(project: Project): project is FeaturedProject {
-  return Boolean(project.image)
+function isFeatured(project: Project) {
+  return Boolean(project.image || (project.phoneShots && project.phoneShots.length > 0))
 }
 
 function pad(seq: number) {
@@ -59,20 +58,22 @@ export default function Work() {
   )
 }
 
-function Featured({ project, seq }: { project: FeaturedProject; seq: number }) {
+function Featured({ project, seq }: { project: Project; seq: number }) {
   const { lang, t } = useI18n()
   const copy = project[lang]
 
   return (
     <article className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 md:mt-14">
       <Reveal className="col-span-12 lg:col-span-8">
-        {project.shots && project.shots.length > 0 ? (
+        {project.phoneShots && project.phoneShots.length > 0 ? (
+          <PhoneShowcase project={project} />
+        ) : project.shots && project.shots.length > 0 ? (
           <ProjectCarousel project={project} />
         ) : (
           <figure>
             <div className="border border-ink bg-paper-deep">
               <RevealImage
-                src={project.image}
+                src={project.image ?? ''}
                 alt={copy.caption ?? copy.title}
                 width={project.imageWidth ?? 1440}
                 height={project.imageHeight ?? 900}
